@@ -53,9 +53,18 @@ function Login() {
     };
     fetch(api + path, request)
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+      .then((data) => authResponse(data));
+  };
+
+  const authResponse = (data) => {
+    console.log(data);
+    if (data.error) {
+      alert(data.error);
+    } else {
+      const token = data.token;
+      localStorage.token = token;
+      props.history.push("/");
+    }
   };
 
   return (

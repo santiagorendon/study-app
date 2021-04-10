@@ -56,7 +56,7 @@ function NavBar() {
       <Button onClick={toggleDrawer(true)} style={buttonStyle}>
         Menu
       </Button>
-      <Drawer anchor={"top"} open={state} onClose={toggleDrawer(false)}>
+      <Drawer anchor={"left"} open={state} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
     </div>

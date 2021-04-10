@@ -21,6 +21,7 @@ function SignUp() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
 
   const paperStyle = {
@@ -47,6 +48,10 @@ function SignUp() {
     setPassword(e.target.value);
   };
 
+  const handleConfirmPassword = (e) => {
+    setConfirmPassword(e.target.password);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const request = {
@@ -58,12 +63,26 @@ function SignUp() {
         password: password,
       }),
     };
-    fetch(api + path, request)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+    if (password !== confirmPassword) {
+      alert("passwords don't match");
+    } else {
+      fetch(api + path, request)
+        .then((response) => response.json())
+        .then((data) => authResponse(data));
+    }
   };
+
+  const authResponse = (data) => {
+    console.log(data);
+    if (data.error) {
+      alert(data.error);
+    } else {
+      const token = data.token;
+      localStorage.token = token;
+      props.history.push("/");
+    }
+  };
+
   return (
     <div>
       <form onSubmit={() => handleSubmit(e)}>
@@ -100,6 +119,15 @@ function SignUp() {
               fullWidth
               required
             />
+            <TextField
+              label="Password"
+              placeholder="Confirm Password"
+              onChange={(e) => handleConfirmPassword(e)}
+              name="password"
+              type="password"
+              fullWidth
+              required
+            />
             <FormControlLabel
               control={<Checkbox name="checkedB" color="primary" />}
               label="Remember Me"
@@ -113,7 +141,7 @@ function SignUp() {
               style={buttonStyle}
             >
               {" "}
-              Sign In{" "}
+              Sign Up{" "}
             </Button>
             <Typography>
               {" "}
