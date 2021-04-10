@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 const api = "http://localhost:8080";
-const path = "/signup";
+const path = "/api/create-account";
 
 function SignUp() {
   const history = useHistory();
@@ -49,26 +49,26 @@ function SignUp() {
   };
 
   const handleConfirmPassword = (e) => {
-    setConfirmPassword(e.target.password);
+    console.log(e.target.value);
+    setConfirmPassword(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const request = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        username: username,
-        password: password,
-      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `username=${username}&password=${password}&confirmPassword=${confirmPassword}&email=${email}`,
     };
     if (password !== confirmPassword) {
       alert("passwords don't match");
     } else {
-      fetch(api + path, request)
+      fetch(path, request)
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => {
+          console.log(data);
+          history.push("/");
+        });
     }
   };
 
@@ -85,7 +85,7 @@ function SignUp() {
 
   return (
     <div>
-      <form onSubmit={() => handleSubmit(e)}>
+      <form>
         <Grid>
           <Paper elevation={10} style={paperStyle}>
             <Grid align="center">
@@ -123,7 +123,7 @@ function SignUp() {
               label="Password"
               placeholder="Confirm Password"
               onChange={(e) => handleConfirmPassword(e)}
-              name="password"
+              name="confirmPassword"
               type="password"
               fullWidth
               required
@@ -133,12 +133,12 @@ function SignUp() {
               label="Remember Me"
             />
             <Button
-              type="submit"
               value="submit"
               background-color="white"
               fullWidth
               variant="contained"
               style={buttonStyle}
+              onClick={(e) => handleSubmit(e)}
             >
               {" "}
               Sign Up{" "}

@@ -13,8 +13,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-const api = "http://localhost:8080";
-const path = "/login";
+const path = "/api/login";
 
 function Login() {
   const history = useHistory();
@@ -45,31 +44,34 @@ function Login() {
     e.preventDefault();
     const request = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `password=${password}&email=${email}`,
     };
-    fetch(api + path, request)
+    // if (password !== confirmPassword) {
+    //   alert("passwords don't match");
+    // } else {
+    fetch(path, request)
       .then((response) => response.json())
-      .then((data) => authResponse(data));
+      .then((data) => {
+        console.log(data);
+        history.push("/");
+      });
   };
 
-  const authResponse = (data) => {
-    console.log(data);
-    if (data.error) {
-      alert(data.error);
-    } else {
-      const token = data.token;
-      localStorage.token = token;
-      history.push("/");
-    }
-  };
+  // const authResponse = (data) => {
+  //   console.log(data);
+  //   if (data.error) {
+  //     alert(data.error);
+  //   } else {
+  //     const token = data.token;
+  //     localStorage.token = token;
+  //     history.push("/");
+  //   }
+  // };
 
   return (
     <div>
-      <form onSubmit={() => handleSubmit(e)}>
+      <form>
         <Grid>
           <Paper elevation={10} style={paperStyle}>
             <Grid align="center">
@@ -99,12 +101,12 @@ function Login() {
               label="Remember Me"
             />
             <Button
-              type="submit"
               value="submit"
               background-color="white"
               fullWidth
               variant="contained"
               style={buttonStyle}
+              onClick={(e) => handleSubmit(e)}
             >
               {" "}
               Sign In{" "}
