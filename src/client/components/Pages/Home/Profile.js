@@ -63,6 +63,15 @@ function Profile() {
     setIsOpen(false);
   }
 
+  // useEffect = (() => {
+  //   fetch("", {
+  //     method: "GET"
+  //   })
+  //   .then(response => response.json())
+  //   .then()
+  // }, [])
+  // fetch the user information here...
+
   const Profile = () => (
     <Grid style={gridStyle}>
       <Paper elevation={20} style={paperStyle2}>
