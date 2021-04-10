@@ -2,6 +2,17 @@ const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config({path: path.join(__dirname, '/.env')}); // put ur own path
 
+const Message = new mongoose.Schema({
+  sender: {
+    type: String
+  },
+  text: {
+    type: String
+  }
+}, {
+  timestamps: true
+});
+
 const StudyGroup= new mongoose.Schema({
   admin: {
     type: String,
@@ -14,7 +25,8 @@ const StudyGroup= new mongoose.Schema({
   userList: [String],
   bio: {
     type: String
-  }
+  },
+  messageList: [Message]
 });
 
 const User= new mongoose.Schema({
@@ -46,6 +58,7 @@ const User= new mongoose.Schema({
 
 mongoose.model("User", User);
 mongoose.model("StudyGroup", StudyGroup);
+mongoose.model("Message", Message);
 
 mongoose
   .connect(process.env.MONGODB_URI, {

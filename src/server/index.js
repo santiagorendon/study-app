@@ -8,6 +8,7 @@ const os = require('os');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const StudyGroup = mongoose.model('StudyGroup');
+const Message = mongoose.model('Message');
 app.use(express.static('dist'));
 app.use(express.urlencoded({extended: false}));
 const session = require('express-session');
@@ -21,14 +22,58 @@ app.use(session(sessionOptions));
 
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
-app.post('/api/fetch-all', (req, res) => {
+app.get('/api/fetch-all', (req, res) => {
   StudyGroup.find({}, (issue, studyGroups) => {
-    console.log(studyGroups);
     if(issue) {
       res.json({'err': issue});
     }
-    res.json({'success': studyGroups});
+    res.json({studyGroups});
   });
+});
+
+app.post('/api/get-message-board', (req, res) => {
+	const studyGroup = req.body.studyGroup;
+	StudyGroup.find({name: studyGroup}, (issue, groups) => {
+		const group = groups[0];
+		if(issue) {
+			res.status(200).json({error: issue});
+		}
+		res.json({ "messages": group["messageList"] });
+	});
+});
+
+app.post('/api/create-message', (req, res) => {
+	const text = req.body.text;
+	const sender = req.body.sender;
+	const studyGroup = req.body.studyGroup;
+	StudyGroup.find({name: studyGroup}, (issue, groups) => {
+		if(issue) {
+			res.status(200).json({error: issue});
+		}
+		const group = groups[0];
+    if(!group) { // group DNE
+      err = "Group does not exist";
+      res.status(200).json({error: err});
+    }
+		const message = new Message({ // create message
+			text: text,
+			sender: sender,
+			studyGroup: group
+		});
+		message.save(function(err){
+			if(err){
+        res.json({'error': 'Error saving data'});
+      }
+			group.messageList.push(message);
+			group.save((err, product)=>{
+				if(err) {
+					res.json({'error': 'Error saving data'});
+				}
+				res.json({'success': true});
+			});
+
+		});
+	});
 });
 
 app.post('/api/create-room', (req, res) => {
@@ -50,7 +95,8 @@ app.post('/api/create-room', (req, res) => {
         admin: admin,
         name: name,
         userList: userList,
-        bio: bio
+        bio: bio,
+				messageList: []
       }).save(function(err){
         if(err){
           res.json({'error': 'Error saving data'})
@@ -74,7 +120,6 @@ app.post('/api/create-room', (req, res) => {
           });
         }
       });
-
     }
   })
 
