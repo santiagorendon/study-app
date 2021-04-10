@@ -1,49 +1,50 @@
-const mongoose = require('mongoose');
-const path = require('path');
-require('dotenv').config({path: '/Users/santiagorendon/Desktop/study-group-app/.env'}); // put ur own path
-
-const User= new mongoose.Schema({
+const mongoose = require("mongoose");
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "/.env") }); // put ur own path
+console.log(path.join(__dirname, "/.env"));
+const User = new mongoose.Schema({
   email: {
     type: String,
-    required: true
+    required: true,
   },
   username: {
-    type: String
+    type: String,
   },
   profileImage: {
-    type: String
+    type: String,
   },
   major: {
-    type: String
+    type: String,
   },
   bio: {
-    type: String
+    type: String,
   },
   hash: {
-    type: String
+    type: String,
   },
   salt: {
-    type: String
+    type: String,
   },
 });
 
-const StudyGroup= new mongoose.Schema({
+const StudyGroup = new mongoose.Schema({
   name: {
-    type: String
+    type: String,
   },
   bio: {
-    type: String
+    type: String,
   },
   bio: {
-    type: String
+    type: String,
   },
 });
 
-mongoose.model('User', User);
-mongoose.model('StudyGroup', StudyGroup);
+mongoose.model("User", User);
+mongoose.model("StudyGroup", StudyGroup);
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true
-})
-    .then(db => console.log(`DB is connected`))
-    .catch(err => console.error(err));
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+  })
+  .then((db) => console.log(`DB is connected`))
+  .catch((err) => console.error(err));
