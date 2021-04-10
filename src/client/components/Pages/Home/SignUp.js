@@ -79,7 +79,7 @@ function SignUp() {
     } else {
       const token = data.token;
       localStorage.token = token;
-      props.history.push("/");
+      history.push("/");
     }
   };
 
