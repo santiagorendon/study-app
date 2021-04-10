@@ -40,7 +40,7 @@ const User= new mongoose.Schema({
   salt: {
     type: String
   },
-  studyGroup: [StudyGroup]
+  studyGroups: [String]
 });
 
 
