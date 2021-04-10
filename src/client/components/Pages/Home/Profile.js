@@ -1,7 +1,18 @@
 import React from "react";
-import { Paper, Grid, Avatar, Button } from "@material-ui/core";
 import NavBar from "./NavBar";
 import Modal from "react-modal";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import {
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  Card,
+  Button,
+  CardContent,
+  CardActions,
+  CardActionArea,
+} from "@material-ui/core";
 
 function Profile() {
   const customStyles = {
@@ -14,36 +25,35 @@ function Profile() {
       transform: "translate(-50%, -50%)",
     },
   };
-  const paperStyle = {
-    borderWidth: "2px",
-    borderColor: "green",
-    width: "20%",
-    height: "50%",
-    position: "relative",
-    top: "50%",
-    left: "15%",
-    backgroundColor: "white",
-    //   border: 2px solid green ;
-    // width: 20%;
-    // height: 50%;
-    // position: fixed;
-    // top: 50%;
-    // left: 15%;
-    // transform: translate(-50%, -50%);
-    // background-color: white;
-    // font-family: 'Quicksand', sans-serif;
-    // font-size: 16px
+
+  const divStyle = {
+    display: "flex",
+    padding: "5px",
+    margin: "5px",
   };
+
   const paperStyle2 = {
     padding: 20,
-    height: "65%",
-    maxWidth: "25%",
-    marginRight: "52%",
-    marginTop: "2%",
+    height: "50vh",
+    width: "75%",
+    margin: "20px auto",
   };
+
+  const profileStyle = {
+    position: "relative",
+    left: "30%",
+    maxWidth: "60%",
+  };
+
   const gridStyle = {
     height: "100vh",
+    width: "50em",
   };
+
+  const gridStyle2 = {
+    height: "25vh",
+  };
+
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
@@ -55,47 +65,64 @@ function Profile() {
 
   const Profile = () => (
     <Grid style={gridStyle}>
-      <Paper elevation={20} style={paperStyle}>
-        <h3>Profile</h3>
+      <Paper elevation={20} style={paperStyle2}>
         <Grid align="center">
-          <Avatar></Avatar>
+          <h3>Profile</h3>
+          <Grid align="center">
+            <Avatar></Avatar>
+          </Grid>
+          <div>
+            <h5>Username</h5>
+            <h5>Email</h5>
+            <h5>Age</h5>
+            <h5>Major</h5>
+            <h5>Bio</h5>
+            <h5>Courses</h5>
+          </div>
+          <Button onClick={openModal}> Edit Profile </Button>
         </Grid>
-        <div>
-          <h5>Username</h5>
-          <h5>Email</h5>
-          <h5>Age</h5>
-          <h5>Major</h5>
-          <h5>Bio</h5>
-          <h5>Courses</h5>
-        </div>
-        <Button onClick={openModal}> Edit Profile </Button>
       </Paper>
     </Grid>
   );
 
   const userStudyGroups = () => (
-    <Grid style={gridStyle}>
-      <Paper elevation={20}>
-        <h3>Profile</h3>
-        <Grid align="center">
-          <Avatar></Avatar>
-        </Grid>
-        <div>
-          <h5>Username</h5>
-          <h5>Email</h5>
-          <h5>Age</h5>
-          <h5>Major</h5>
-          <h5>Bio</h5>
-          <h5>Courses</h5>
-        </div>
-        <Button onClick={openModal}> Edit Profile </Button>
-      </Paper>
-    </Grid>
+    <Card variant="outlined">
+      <CardContent>
+        <Typography color="textSecondary" gutterBottom>
+          blach
+        </Typography>
+        <Typography variant="h5" component="h2">
+          blach
+        </Typography>
+        <Typography color="textSecondary">blach</Typography>
+
+        <CardActions>
+          <CardActionArea>
+            <Button size="small">
+              <DeleteOutlineIcon></DeleteOutlineIcon>
+            </Button>
+          </CardActionArea>
+        </CardActions>
+      </CardContent>
+    </Card>
   );
+
   return (
     <div>
-      {Profile()}
-      {userStudyGroups()}
+      <div style={divStyle}>
+        <div>
+          <Grid style={gridStyle}>
+            <Paper elevation={20} style={paperStyle2}>
+              <Grid align="center">
+                <h4> User Study Groups</h4>
+                {userStudyGroups()}
+              </Grid>
+            </Paper>
+          </Grid>
+        </div>
+        <div>{Profile()}</div>
+      </div>
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
