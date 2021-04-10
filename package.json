@@ -14,9 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "axios": "^0.21.1",
-    "@material-ui/icons": "^4.11.2",
     "babel-polyfill": "^6.26.0",
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
@@ -25,6 +25,7 @@
     "pbkdf2-password": "^1.2.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-modal": "^3.12.1",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0"
   },
@@ -36,7 +37,7 @@
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
     "clean-webpack-plugin": "^1.0.0",
-    "concurrently": "^4.0.0",
+    "concurrently": "^4.1.2",
     "css-loader": "^2.0.0",
     "eslint": "^5.0.0",
     "eslint-config-airbnb": "^17.0.0",

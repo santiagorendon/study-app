@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Paper,
@@ -13,15 +13,13 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-const api = "http://localhost:8080";
-const path = "/signup";
+const path = "/api/login";
 
-function SignUp() {
+function Login() {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
 
   const paperStyle = {
     padding: 20,
@@ -37,11 +35,6 @@ function SignUp() {
     setEmail(e.target.value);
   };
 
-  const handleUsername = (e) => {
-    console.log(e.target.value);
-    setUsername(e.target.value);
-  };
-
   const handlePassword = (e) => {
     console.log(e.target.value);
     setPassword(e.target.value);
@@ -51,43 +44,47 @@ function SignUp() {
     e.preventDefault();
     const request = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        username: username,
-        password: password,
-      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `password=${password}&email=${email}`,
     };
-    fetch(api + path, request)
+    // if (password !== confirmPassword) {
+    //   alert("passwords don't match");
+    // } else {
+    fetch(path, request)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        history.push("/");
       });
   };
+
+  // const authResponse = (data) => {
+  //   console.log(data);
+  //   if (data.error) {
+  //     alert(data.error);
+  //   } else {
+  //     const token = data.token;
+  //     localStorage.token = token;
+  //     history.push("/");
+  //   }
+  // };
+
   return (
     <div>
-      <form onSubmit={() => handleSubmit(e)}>
+      <form>
         <Grid>
           <Paper elevation={10} style={paperStyle}>
             <Grid align="center">
               <Avatar style={avatarStyle}>
                 <LockOutlinedIcon></LockOutlinedIcon>
               </Avatar>
-              <h2>Sign Up</h2>
+              <h2>Sign In</h2>
             </Grid>
             <TextField
               label="Email"
-              placeholder="Enter Your Email"
+              placeholder="Enter Email"
               name="email"
               onChange={(e) => handleEmail(e)}
-              fullWidth
-              required
-            />
-            <TextField
-              label=" Create a Username"
-              placeholder="Enter Username"
-              onChange={(e) => handleUsername(e)}
-              name="username"
               fullWidth
               required
             />
@@ -95,7 +92,6 @@ function SignUp() {
               label="Password"
               placeholder="Enter Password"
               onChange={(e) => handlePassword(e)}
-              name="password"
               type="password"
               fullWidth
               required
@@ -105,20 +101,20 @@ function SignUp() {
               label="Remember Me"
             />
             <Button
-              type="submit"
               value="submit"
               background-color="white"
               fullWidth
               variant="contained"
               style={buttonStyle}
+              onClick={(e) => handleSubmit(e)}
             >
               {" "}
               Sign In{" "}
             </Button>
             <Typography>
               {" "}
-              have an account
-              <Link to="/login"> Login</Link>
+              Don't have an account?
+              <Link to="/signup">Sign Up</Link>
             </Typography>
           </Paper>
         </Grid>
@@ -127,4 +123,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;
