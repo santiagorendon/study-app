@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
-require("./db.js");
 var hash =require('pbkdf2-password')()
 const path = require('path');
 require('dotenv').config({path: path.join(__dirname, '/.env')}); // put ur own path
+require("./db.js");
 const os = require('os');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const StudyGroup = mongoose.model('StudyGroup');
 app.use(express.static('dist'));
 app.use(express.urlencoded({extended: false}));
 const session = require('express-session');
@@ -19,6 +20,66 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
+
+app.post('/api/fetch-all', (req, res) => {
+  StudyGroup.find({}, (issue, studyGroups) => {
+    console.log(studyGroups);
+    if(issue) {
+      res.json({'err': issue});
+    }
+    res.json({'success': studyGroups});
+  });
+});
+
+app.post('/api/create-room', (req, res) => {
+  const admin = req.body.admin;
+  const name = req.body.name;
+  const bio = req.body.bio;
+  const userList = [];
+  userList.push(admin);
+
+  StudyGroup.find({name: name}, (issue, groups) => {
+    const group = groups[0];
+    if(group) {
+      err = "Group name exists";
+      res.status(200).json({error: err});
+    }
+    else{
+      // create new study group
+      new StudyGroup({
+        admin: admin,
+        name: name,
+        userList: userList,
+        bio: bio
+      }).save(function(err){
+        if(err){
+          res.json({'error': 'Error saving data'})
+        }
+        else{ // if study group is made
+          User.findOne({username: admin}, (issue, user)=>{
+            if(issue){
+              res.json(issue);
+            }
+            if(user.studyGroups) {
+              user.studyGroups.append(name);
+            }
+            user.save((err, product) => {
+              if(err){
+                res.json(err);
+              }
+              else{
+                res.json({'success': true});
+              }
+            });
+          });
+        }
+      });
+
+    }
+  })
+
+
+});
 
 app.post('/api/login', (req, res) => {
 	const email = req.body.email;
@@ -92,7 +153,8 @@ app.post('/api/create-account', (req, res) => {
             email: email,
 			      username: username,
 						salt: salt,
-			      hash: hash
+			      hash: hash,
+            studyGroups: []
 			    }).save(function(err){
 			      if(err){
 			        res.json({'error': 'Error saving data'})

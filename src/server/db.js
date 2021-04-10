@@ -1,8 +1,24 @@
-const mongoose = require("mongoose");
-const path = require("path");
-require("dotenv").config({ path: path.join(__dirname, "/.env") }); // put ur own path
-console.log(path.join(__dirname, "/.env"));
-const User = new mongoose.Schema({
+const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config({path: path.join(__dirname, '/.env')}); // put ur own path
+
+const StudyGroup= new mongoose.Schema({
+  admin: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  userList: [String],
+  bio: {
+    type: String
+  }
+});
+
+const User= new mongoose.Schema({
+
   email: {
     type: String,
     required: true,
@@ -25,18 +41,7 @@ const User = new mongoose.Schema({
   salt: {
     type: String,
   },
-});
-
-const StudyGroup = new mongoose.Schema({
-  name: {
-    type: String,
-  },
-  bio: {
-    type: String,
-  },
-  bio: {
-    type: String,
-  },
+  studyGroups: [String]
 });
 
 mongoose.model("User", User);
