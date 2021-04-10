@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
 const path = require('path');
-require('dotenv').config({path: '/Users/santiagorendon/Desktop/study-group-app/.env'}); // put ur own path
+require('dotenv').config({path: path.join(__dirname, '/.env')}); // put ur own path
+
+const StudyGroup= new mongoose.Schema({
+  admin: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  userList: [String],
+  bio: {
+    type: String
+  }
+});
 
 const User= new mongoose.Schema({
   email: {
@@ -25,19 +40,10 @@ const User= new mongoose.Schema({
   salt: {
     type: String
   },
+  studyGroup: [StudyGroup]
 });
 
-const StudyGroup= new mongoose.Schema({
-  name: {
-    type: String
-  },
-  bio: {
-    type: String
-  },
-  bio: {
-    type: String
-  },
-});
+
 
 mongoose.model('User', User);
 mongoose.model('StudyGroup', StudyGroup);
