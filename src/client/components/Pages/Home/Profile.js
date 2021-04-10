@@ -94,7 +94,6 @@ function Profile() {
   );
   return (
     <div>
-      <NavBar />
       {Profile()}
       {userStudyGroups()}
       <Modal

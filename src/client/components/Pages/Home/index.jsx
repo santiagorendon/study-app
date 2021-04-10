@@ -34,10 +34,9 @@ const Home = () => {
 
     return (
         <div>
-            <NavBar/>
+  
             <h1>  This is home</h1>
 
-       
 
 
                 {/* get from, the DB and populate the room card */}
