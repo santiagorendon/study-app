@@ -105,7 +105,7 @@ app.post('/api/login', (req, res) => {
 				}
         else if (hash === user.hash){
 					req.session.user = user['_id'];
-					res.json({'success':true});
+					res.json({'success': user['_id']});
 				}
 				else{
 					err = "Password and Email do not match";
@@ -149,18 +149,19 @@ app.post('/api/create-account', (req, res) => {
 				hash({ password: password }, function (err, pass, salt, hash) {
 			    if (err) throw err;
 			    // store the salt & hash in the "db"
-					new User({
+					const newUser = new User({
             email: email,
 			      username: username,
 						salt: salt,
 			      hash: hash,
             studyGroups: []
-			    }).save(function(err){
+			    });
+          newUser.save(function(err){
 			      if(err){
 			        res.json({'error': 'Error saving data'})
 			      }
 			      else{
-			        res.json({'success': true});
+			        res.json({'success': newUser['_id']});
 			      }
 			    });
 			  });
