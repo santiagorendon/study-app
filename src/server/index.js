@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 require("./db.js");
 var hash =require('pbkdf2-password')()
-require('dotenv').config({path: '/Users/santiagorendon/Desktop/study-group-app/.env'}); // put ur own path
+const path = require('path');
+require('dotenv').config({path: path.join(__dirname, '/.env')}); // put ur own path
 const os = require('os');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
