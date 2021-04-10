@@ -68,20 +68,20 @@ function SignUp() {
     } else {
       fetch(api + path, request)
         .then((response) => response.json())
-        .then((data) => authResponse(data));
+        .then((data) => console.log(data));
     }
   };
 
-  const authResponse = (data) => {
-    console.log(data);
-    if (data.error) {
-      alert(data.error);
-    } else {
-      const token = data.token;
-      localStorage.token = token;
-      history.push("/");
-    }
-  };
+  // const authResponse = (data) => {
+  //   console.log(data);
+  //   if (data.error) {
+  //     alert(data.error);
+  //   } else {
+  //     const token = data.token;
+  //     localStorage.token = token;
+  //     history.push("/");
+  //   }
+  // };
 
   return (
     <div>
