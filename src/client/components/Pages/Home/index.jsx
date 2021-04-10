@@ -1,10 +1,10 @@
-
 import Axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
 import StudyRoomCard from './StudyRoomCard'
 // import { NotificationContext } from '../../shared/Notifications';
 import { NotificationContext } from '../../shared/Notifications'
 import { Container } from '@material-ui/core'
+import NavBar from './NavBar'
 
 
 const Home = () => {
@@ -34,6 +34,7 @@ const Home = () => {
 
     return (
         <div>
+            <NavBar/>
             <h1>  This is home</h1>
 
        
