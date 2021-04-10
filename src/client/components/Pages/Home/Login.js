@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Paper,
@@ -14,14 +14,13 @@ import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 const api = "http://localhost:8080";
-const path = "/signup";
+const path = "/login";
 
-function SignUp() {
+function Login() {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
 
   const paperStyle = {
     padding: 20,
@@ -37,11 +36,6 @@ function SignUp() {
     setEmail(e.target.value);
   };
 
-  const handleUsername = (e) => {
-    console.log(e.target.value);
-    setUsername(e.target.value);
-  };
-
   const handlePassword = (e) => {
     console.log(e.target.value);
     setPassword(e.target.value);
@@ -54,16 +48,25 @@ function SignUp() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: email,
-        username: username,
         password: password,
       }),
     };
     fetch(api + path, request)
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+      .then((data) => authResponse(data));
   };
+
+  const authResponse = (data) => {
+    console.log(data);
+    if (data.error) {
+      alert(data.error);
+    } else {
+      const token = data.token;
+      localStorage.token = token;
+      history.push("/");
+    }
+  };
+
   return (
     <div>
       <form onSubmit={() => handleSubmit(e)}>
@@ -73,21 +76,13 @@ function SignUp() {
               <Avatar style={avatarStyle}>
                 <LockOutlinedIcon></LockOutlinedIcon>
               </Avatar>
-              <h2>Sign Up</h2>
+              <h2>Sign In</h2>
             </Grid>
             <TextField
               label="Email"
-              placeholder="Enter Your Email"
+              placeholder="Enter Email"
               name="email"
               onChange={(e) => handleEmail(e)}
-              fullWidth
-              required
-            />
-            <TextField
-              label=" Create a Username"
-              placeholder="Enter Username"
-              onChange={(e) => handleUsername(e)}
-              name="username"
               fullWidth
               required
             />
@@ -95,7 +90,6 @@ function SignUp() {
               label="Password"
               placeholder="Enter Password"
               onChange={(e) => handlePassword(e)}
-              name="password"
               type="password"
               fullWidth
               required
@@ -117,8 +111,8 @@ function SignUp() {
             </Button>
             <Typography>
               {" "}
-              have an account
-              <Link to="/login"> Login</Link>
+              Don't have an account?
+              <Link to="/signup">Sign Up</Link>
             </Typography>
           </Paper>
         </Grid>
@@ -127,4 +121,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;

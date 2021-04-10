@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Paper,
@@ -14,13 +14,15 @@ import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 const api = "http://localhost:8080";
-const path = "/login";
+const path = "/signup";
 
-function Login() {
+function SignUp() {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const paperStyle = {
     padding: 20,
@@ -36,9 +38,18 @@ function Login() {
     setEmail(e.target.value);
   };
 
+  const handleUsername = (e) => {
+    console.log(e.target.value);
+    setUsername(e.target.value);
+  };
+
   const handlePassword = (e) => {
     console.log(e.target.value);
     setPassword(e.target.value);
+  };
+
+  const handleConfirmPassword = (e) => {
+    setConfirmPassword(e.target.password);
   };
 
   const handleSubmit = (e) => {
@@ -48,15 +59,29 @@ function Login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: email,
+        username: username,
         password: password,
       }),
     };
-    fetch(api + path, request)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+    if (password !== confirmPassword) {
+      alert("passwords don't match");
+    } else {
+      fetch(api + path, request)
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+    }
   };
+
+  // const authResponse = (data) => {
+  //   console.log(data);
+  //   if (data.error) {
+  //     alert(data.error);
+  //   } else {
+  //     const token = data.token;
+  //     localStorage.token = token;
+  //     history.push("/");
+  //   }
+  // };
 
   return (
     <div>
@@ -67,13 +92,21 @@ function Login() {
               <Avatar style={avatarStyle}>
                 <LockOutlinedIcon></LockOutlinedIcon>
               </Avatar>
-              <h2>Sign In</h2>
+              <h2>Sign Up</h2>
             </Grid>
             <TextField
               label="Email"
-              placeholder="Enter Email"
+              placeholder="Enter Your Email"
               name="email"
               onChange={(e) => handleEmail(e)}
+              fullWidth
+              required
+            />
+            <TextField
+              label=" Create a Username"
+              placeholder="Enter Username"
+              onChange={(e) => handleUsername(e)}
+              name="username"
               fullWidth
               required
             />
@@ -81,6 +114,16 @@ function Login() {
               label="Password"
               placeholder="Enter Password"
               onChange={(e) => handlePassword(e)}
+              name="password"
+              type="password"
+              fullWidth
+              required
+            />
+            <TextField
+              label="Password"
+              placeholder="Confirm Password"
+              onChange={(e) => handleConfirmPassword(e)}
+              name="password"
               type="password"
               fullWidth
               required
@@ -98,12 +141,12 @@ function Login() {
               style={buttonStyle}
             >
               {" "}
-              Sign In{" "}
+              Sign Up{" "}
             </Button>
             <Typography>
               {" "}
-              Don't have an account?
-              <Link to="/signup">Sign Up</Link>
+              have an account
+              <Link to="/login"> Login</Link>
             </Typography>
           </Paper>
         </Grid>
@@ -112,4 +155,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
