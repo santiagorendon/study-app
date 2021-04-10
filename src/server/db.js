@@ -18,38 +18,38 @@ const StudyGroup= new mongoose.Schema({
 });
 
 const User= new mongoose.Schema({
+
   email: {
     type: String,
-    required: true
+    required: true,
   },
   username: {
-    type: String
+    type: String,
   },
   profileImage: {
-    type: String
+    type: String,
   },
   major: {
-    type: String
+    type: String,
   },
   bio: {
-    type: String
+    type: String,
   },
   hash: {
-    type: String
+    type: String,
   },
   salt: {
-    type: String
+    type: String,
   },
   studyGroups: [String]
 });
 
+mongoose.model("User", User);
+mongoose.model("StudyGroup", StudyGroup);
 
-
-mongoose.model('User', User);
-mongoose.model('StudyGroup', StudyGroup);
-
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true
-})
-    .then(db => console.log(`DB is connected`))
-    .catch(err => console.error(err));
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+  })
+  .then((db) => console.log(`DB is connected`))
+  .catch((err) => console.error(err));
