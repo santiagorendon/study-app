@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Paper,
@@ -12,6 +12,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import {UserContext} from "./UserProvider"
 
 const api = "http://localhost:8080";
 const path = "/api/create-account";
@@ -23,6 +24,8 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
+  const { setUser } = useContext(UserContext);
+
 
   const paperStyle = {
     padding: 20,
@@ -73,8 +76,12 @@ function SignUp() {
             alert(response["error"]);
           } else {
             history.push("/");
-            const token = response["success"];
-            localStorage.token = token;
+            const userData = response["success"];
+            console.log(userData)
+            localStorage.token = userData.id;
+            setUser(userData);
+            // const token = response["success"];
+            // localStorage.token = token;
             return response["success"];
           }
         });

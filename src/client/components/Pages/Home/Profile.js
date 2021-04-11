@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import NavBar from "./NavBar";
 import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { UserContext } from './UserProvider';
 import {
   Paper,
   Avatar,
@@ -16,8 +17,10 @@ import {
 } from "@material-ui/core";
 
 const path = "/api/find-user";
+
 function Profile() {
-  const [user, setUser] = useState([]);
+  const { user, setUser } = useContext(UserContext);
+  // const [user, setUser] = useState([]);
   const [major, setMajor] = useState("");
   const [bio, setBio] = useState("");
   const [study, setStudy] = useState([]);
