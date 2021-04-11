@@ -126,6 +126,11 @@ app.post('/api/create-room', (req, res) => {
 
 });
 
+app.get('/api/logout', (req, res) => {
+	req.session.user = undefined;
+  res.send('logged out');
+});
+
 app.post('/api/login', (req, res) => {
 	const email = req.body.email;
 	const password  = req.body.password;
