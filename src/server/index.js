@@ -31,6 +31,20 @@ app.get('/api/fetch-all', (req, res) => {
   });
 });
 
+app.post('/api/fetch-one-room', (req, res) => {
+	const id = req.body.id;
+	console.log(id);
+	StudyGroup.findById(id, (issue, group) => {
+
+		  console.log(group);
+    if(issue) {
+      res.json({'err': issue});
+    }
+    res.json({group});
+	})
+
+})
+
 app.post('/api/find-user', (req, res) => {
 	const id = req.body.id;
 	User.findById(id, (issue, user) => {
