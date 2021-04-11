@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+
+import { Link } from "react-router-dom";
 import { Grid, Typography, Container, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
@@ -14,13 +15,13 @@ import UserList from './UserList';
 
 const useStyles = makeStyles({
     root: {
-        
+
         background: '#E0E5EB',
     },
     wrap: {
-        
 
-        padding:'2rem',
+
+        padding: '2rem',
     },
     videoContainer: {
         // overflow: 'hidden',
@@ -39,69 +40,34 @@ const useStyles = makeStyles({
     },
 
 });
-function generate(element) {
-    return [0, 1, 2].map((value) =>
-        React.cloneElement(element, {
-            key: value,
-        }),
-    );
-}
+
 
 const StudyRoom = () => {
     const classes = useStyles();
     const { id } = useParams();
-    console.log('id')
-    console.log(id)
-    const [studyRoom, setStudyRoom] = useState()
-
-
-    // fetch(path, request)
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //     if (response["error"]) {
-    //       alert(response["error"]);
-    //     } else {
-    //       history.push("/");
-    //       const token = response["success"];
-    //       localStorage.token = token;
-    //       return response["success"];
-    //     }
-    //   });
-    //   const request = {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    //     body: `password=${password}&email=${email}`,
-    //   };
-  
-
+    const [studyRoom, setStudyRoom] = useState({})
 
     useEffect(() => {
         fetch(`/api/fetch-one-room`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: `id=${id}`
+            },
+            body: `id=${id}`
         })
             .then((res) => {
-                console.log('res here')
-                console.log(res)
-                console.log('res here jason')
-                console.log(res.json())
-                // setStudyRoom(res.data)
                 return res.json()
             })
             .then((res) => {
                 console.log(res)
-                
+                console.log(res.group)
+                setStudyRoom(res.group)
+
             })
             .catch(err => {
                 console.log(err)
             })
-    }, [])
+    }, [id])
 
 
     return (
@@ -109,13 +75,13 @@ const StudyRoom = () => {
             <Grid container className={classes.wrap}>
                 <Grid className='boxx' item sm={7} xs={12}>
                     <Typography variant="h2" component="h1">
-                       {/* {studyRoom.name} */}
+                        {studyRoom.name}
                     </Typography>
                 </Grid>
                 <Grid className='boxx' item xs sm={1}>
                     <Box m={1}>
 
-                    Date
+                        Date
                     </Box>
                 </Grid>
                 <Grid
@@ -128,7 +94,9 @@ const StudyRoom = () => {
                     alignItems="center"
                     item >
                     <Box m={1}>
-                        <Button variant="contained">Leave Room</Button>
+                        <Link to="/" >
+                        <Button variant="contained" >Leave Room</Button>
+                        </Link>
                     </Box>
                     <Box m={1} mb={2}>
                         <Button variant="contained" color="primary"> Share room</Button>
@@ -149,11 +117,11 @@ const StudyRoom = () => {
 
 
                         <Typography variant="body1" component="p">
-                            Bio : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the e release of Letraset sheets containing Lorem Ipsum passages, and more recently with de
+                            {studyRoom.bio}
                         </Typography>
                     </Box>
 
-                    <Box className={classes.videoContainer} ><iframe width="100%" height="300" src="https://www.youtube.com/embed/reRYtjr1BNo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe> </Box>
+                    {/* <Box className={classes.videoContainer} ><iframe width="100%" height="300" src="https://www.youtube.com/embed/reRYtjr1BNo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe> </Box> */}
 
                 </Grid>
                 {/* user list */}
@@ -167,8 +135,9 @@ const StudyRoom = () => {
                     alignItems="center"
                     item
                 >
-
-                    <UserList />
+                    <UserList
+                        users={studyRoom.UserList}
+                    />
 
                 </Grid>
 
