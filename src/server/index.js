@@ -43,6 +43,8 @@ app.post('/api/fetch-one-room', (req, res) => {
     }
     res.json({group});
 	})
+	
+})
 
 
 app.post('/api/find-user', (req, res) => {
@@ -121,6 +123,7 @@ app.post('/api/create-room', (req, res) => {
       res.status(200).json({error: err});
     }
     else{
+		
       // create new study group
       new StudyGroup({
         admin: admin,
