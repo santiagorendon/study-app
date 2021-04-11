@@ -25,6 +25,7 @@
     "pbkdf2-password": "^1.2.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-messaging": "^0.1.2",
     "react-modal": "^3.12.1",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0"

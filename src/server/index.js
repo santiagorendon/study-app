@@ -297,9 +297,9 @@ app.post('/api/create-account', (req, res) => {
 			      else{
 							res.json({'success':
 								{
-									id: user['_id'],
-									email: user['email'],
-									username: user['username']
+									id: newUser['_id'],
+									email: newUser['email'],
+									username: newUser['username']
 								}
 							});
 			      }
