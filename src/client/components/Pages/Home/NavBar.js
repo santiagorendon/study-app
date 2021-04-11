@@ -40,7 +40,7 @@ function NavBar() {
         setUser(data);
       });
   }, []);
-  console.log(user);
+
   const navStyle = {
     backgroundColor: "pink",
     opacity: ".6",
@@ -62,6 +62,14 @@ function NavBar() {
 
   const buttonStyle = { position: "relative", top: "8.5px" };
 
+  const navStyle2 = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    padding: "75px",
+    fontSize: "30px",
+  };
+
   const toggleDrawer = (open) => (event) => {
     setState(open);
   };
@@ -82,52 +90,56 @@ function NavBar() {
     // }).then(response => console.log(response))
     //this is for closing the backend server?
   };
-
+  const token = localStorage.token;
   const list = () => (
-    <div onClick={toggleDrawer(false)}>
-      <List>
-        <ListItem>
-          <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-            Home
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link
-            to="/profile"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            Profile
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link
-            to="/studyroom"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            Study Room
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-            Login
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/signup" style={{ textDecoration: "none", color: "black" }}>
-            signup
-          </Link>
-        </ListItem>
+    <div onClick={toggleDrawer(false)} style={navStyle2}>
+      {token ? (
+        <List>
+          <ListItem>
+            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+              Home
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              to="/profile"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              Profile
+            </Link>
+          </ListItem>
 
-        {/* <ListItem>
-          <Link to="/group" >
-            create a group
-          </Link>
-        </ListItem> */}
-        {!localStorage.token && <Redirect to="/login" />}
-        <ListItem button onClick={handleLogout}>
-          Logout
-        </ListItem>
-      </List>
+          {!localStorage.token && <Redirect to="/login" />}
+          <ListItem button onClick={handleLogout}>
+            Logout
+          </ListItem>
+        </List>
+      ) : (
+        <List>
+          <ListItem>
+            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+              Home
+            </Link>
+          </ListItem>
+
+          <ListItem>
+            <Link
+              to="/signup"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              signup
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              Login
+            </Link>
+          </ListItem>
+        </List>
+      )}
     </div>
   );
 
@@ -165,17 +177,25 @@ function NavBar() {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <div>
-        <h2
-          className="create-study"
-          style={{ position: "relative", left: "130px" }}
-        >
-          Create A Study Group
-        </h2>
-      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <h2 className="create-study">Create A Study Group</h2>
 
-      <TextField label="name" name="name" onChange={(e) => handleName(e)} />
-      <TextField label="Bio" name="bio" onChange={(e) => handleBio(e)} />
+        <TextField label="name" name="name" onChange={(e) => handleName(e)} />
+        <TextField label="Bio" name="bio" onChange={(e) => handleBio(e)} />
+      </div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Button type="submit" onClick={(e) => handleClick(e)}>
+          Enter
+        </Button>
+
+        <Button onClick={closeModal}>close</Button>
+      </div>
       {/* <FormControl>
         <InputLabel shrink htmlFor="select-multiple-native">
           Native
@@ -190,11 +210,6 @@ function NavBar() {
           Courses to select from?
         </Select>
       </FormControl> */}
-      <Button type="submit" onClick={(e) => handleClick(e)}>
-        Enter
-      </Button>
-
-      <Button onClick={closeModal}>close</Button>
     </Modal>
   );
 
