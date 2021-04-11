@@ -33,10 +33,7 @@ app.get('/api/fetch-all', (req, res) => {
 
 app.post('/api/fetch-one-room', (req, res) => {
 	const id = req.body.id;
-	console.log(id);
 	StudyGroup.findById(id, (issue, group) => {
-
-		  console.log(group);
     if(issue) {
       res.json({'err': issue});
     }
@@ -111,6 +108,7 @@ app.post('/api/create-room', (req, res) => {
   const admin = req.body.admin;
   const name = req.body.name;
   const bio = req.body.bio;
+	let playlistUrl =  req.body.playlistUrl ? req.body.playlistUrl: "";
   const userList = [];
   userList.push(admin);
 
@@ -126,6 +124,7 @@ app.post('/api/create-room', (req, res) => {
         admin: admin,
         name: name,
         userList: userList,
+				playlistUrl: playlistUrl,
         bio: bio,
 				messageList: []
       }).save(function(err){
@@ -138,7 +137,7 @@ app.post('/api/create-room', (req, res) => {
               res.json(issue);
             }
             if(user.studyGroups) {
-              user.studyGroups.append(name);
+              user.studyGroups.push(name);
             }
             user.save((err, product) => {
               if(err){
@@ -186,7 +185,15 @@ app.post('/api/login', (req, res) => {
 				}
         else if (hash === user.hash){
 					req.session.user = user['_id'];
-					res.json({'success': user['_id']});
+					res.json({'success':
+						{
+							id: user['_id'],
+							email: user['email'],
+							username: user['username'],
+							bio: "",
+							major: ""
+						}
+					});
 				}
 				else{
 					err = "Password and Email do not match";
@@ -242,7 +249,15 @@ app.post('/api/create-account', (req, res) => {
 			        res.json({'error': 'Error saving data'})
 			      }
 			      else{
-			        res.json({'success': newUser['_id']});
+							res.json({'success':
+								{
+									id: user['_id'],
+									email: user['email'],
+									username: user['username'],
+									bio: "",
+									major: ""
+								}
+							});
 			      }
 			    });
 			  });
