@@ -31,6 +31,23 @@ app.get('/api/fetch-all', (req, res) => {
   });
 });
 
+app.post('/api/find-user', (req, res) => {
+	const id = req.body.id;
+	User.findById(id, (issue, user) => {
+		if(!user) {
+			return res.json({"err": "user not found"});
+		}
+		return res.json({
+			email: user["email"],
+			username: user["username"],
+			profileImage: user["profileImage"],
+			major: user["major"],
+			bio: user["bio"],
+			studyGroups: user["studyGroups"]
+		});
+	});
+});
+
 app.post('/api/get-message-board', (req, res) => {
 	const studyGroup = req.body.studyGroup;
 	StudyGroup.find({name: studyGroup}, (issue, groups) => {
