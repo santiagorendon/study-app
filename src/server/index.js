@@ -195,7 +195,7 @@ app.post('/api/create-room', (req, res) => {
       res.status(200).json({error: err});
     }
     // create new study group
-    new StudyGroup({
+    new StudyGroup({  
       admin: admin,
       name: name,
       userList: userList,

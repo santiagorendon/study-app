@@ -161,14 +161,12 @@ function NavBar() {
   };
 
   const handleClick = (e) => {
-    console.log(user);
 
     e.preventDefault();
-
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `name=${name}&bio=${bio}&admin=${user}`,
+      body: `name=${"Biology"}&bio=${"lets learn together"}&admin=${"soccerfan1"}`,
     };
 
     fetch(path3, request)
@@ -176,7 +174,7 @@ function NavBar() {
         console.log(response);
         return response.json();
       })
-      .then((data) => console.log(data));
+      .then((data) => history.push('/'));
   };
 
   const renderModal = () => (
@@ -224,7 +222,7 @@ function NavBar() {
 
   return (
 
-    
+
     <div style={navStyle}>
       <Button onClick={openModal} style={buttonStyle}> Create a Study Group </Button>
       <Button onClick={toggleDrawer(true)} style={buttonStyle}>
