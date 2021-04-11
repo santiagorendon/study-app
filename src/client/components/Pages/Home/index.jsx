@@ -1,7 +1,6 @@
 import Axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
 import StudyRoomCard from './StudyRoomCard'
-// import { NotificationContext } from '../../shared/Notifications';
 import { NotificationContext } from '../../shared/Notifications'
 
 import { Container, Box, Grid } from '@material-ui/core'
@@ -14,12 +13,13 @@ const useStyles = makeStyles((theme) => ({
         // background: '#222',
     },
     input: {
-        width:'30rem',
-        marginBottom:'1rem',
+        width: '30rem',
+        marginBottom: '1rem',
 
     }
 
 }));
+
 
 const Home = () => {
     const getRooms = "/api/fetch-all"
@@ -30,10 +30,7 @@ const Home = () => {
         Axios.get(getRooms)
             // .then(( studyGroups ) => console.log(studyGroups.data.studyGroups))
             .then(res => {
-useEffect(() => {
-        Axios.get(getRooms)
-            // .then(( studyGroups ) => console.log(studyGroups.data.studyGroups))
-            .then(res => {
+
                 if (res.status !== 200) {
                     setNotification({
                         type: "error",
@@ -50,6 +47,7 @@ useEffect(() => {
                 }
             })
     }, [])
+
     return (
 
         <Container>
@@ -68,6 +66,7 @@ useEffect(() => {
                     <TextField className={classes.input}  id="outlined-basic" label="Search" variant="outlined" />
                 </form>
 
+
                 {rooms.map((room, i) => (
 
                     <StudyRoomCard
@@ -80,6 +79,7 @@ useEffect(() => {
                         userAmount={room.userList.length} />
 
                 ))}
+
 
 
 
