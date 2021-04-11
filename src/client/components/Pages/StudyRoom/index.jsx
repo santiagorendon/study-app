@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+
+import { Link } from "react-router-dom";
 import { Grid, Typography, Container, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -12,13 +15,13 @@ import UserList from './UserList';
 
 const useStyles = makeStyles({
     root: {
-        
+
         background: '#E0E5EB',
     },
     wrap: {
-        
 
-        padding:'2rem',
+
+        padding: '2rem',
     },
     videoContainer: {
         // overflow: 'hidden',
@@ -37,29 +40,48 @@ const useStyles = makeStyles({
     },
 
 });
-function generate(element) {
-    return [0, 1, 2].map((value) =>
-        React.cloneElement(element, {
-            key: value,
-        }),
-    );
-}
+
 
 const StudyRoom = () => {
     const classes = useStyles();
+    const { id } = useParams();
+    const [studyRoom, setStudyRoom] = useState({})
+
+    useEffect(() => {
+        fetch(`/api/fetch-one-room`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `id=${id}`
+        })
+            .then((res) => {
+                return res.json()
+            })
+            .then((res) => {
+                console.log(res)
+                console.log(res.group)
+                setStudyRoom(res.group)
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [id])
+
 
     return (
         <Container className={classes.root}>
             <Grid container className={classes.wrap}>
                 <Grid className='boxx' item sm={7} xs={12}>
                     <Typography variant="h2" component="h1">
-                        Study Room Name
+                        {studyRoom.name}
                     </Typography>
                 </Grid>
                 <Grid className='boxx' item xs sm={1}>
                     <Box m={1}>
 
-                    Date
+                        Date
                     </Box>
                 </Grid>
                 <Grid
@@ -72,7 +94,9 @@ const StudyRoom = () => {
                     alignItems="center"
                     item >
                     <Box m={1}>
-                        <Button variant="contained">Leave Room</Button>
+                        <Link to="/" >
+                        <Button variant="contained" >Leave Room</Button>
+                        </Link>
                     </Box>
                     <Box m={1} mb={2}>
                         <Button variant="contained" color="primary"> Share room</Button>
@@ -80,6 +104,7 @@ const StudyRoom = () => {
                 </Grid>
                 {/* row 2 */}
                 <Grid
+                    item
                     xs={12}
                     sm
                     container
@@ -87,13 +112,12 @@ const StudyRoom = () => {
                     justify="space-evenly"
                     alignItems="center"
                     className='boxx'
-                    item
                 >
                     <Box p={2}>
 
 
                         <Typography variant="body1" component="p">
-                            Bio : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the e release of Letraset sheets containing Lorem Ipsum passages, and more recently with de
+                            {studyRoom.bio}
                         </Typography>
                     </Box>
 
@@ -111,8 +135,9 @@ const StudyRoom = () => {
                     alignItems="center"
                     item
                 >
-
-                    <UserList />
+                    <UserList
+                        users={studyRoom.UserList}
+                    />
 
                 </Grid>
 

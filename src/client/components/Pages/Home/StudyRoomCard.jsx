@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import { Card, Box } from '@material-ui/core';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -12,6 +13,7 @@ const useStyles = makeStyles({
         minWidth: 275,
         maxWidth: 500,
         background: '#E0E5EB',
+        margin:'1rem',
     },
     bullet: {
         display: 'inline-block',
@@ -30,7 +32,7 @@ const useStyles = makeStyles({
 });
 
 
-const StudyRoomCard = ({ groupName, tags, bio, meetDatetime, userAmount }) => {
+const StudyRoomCard = ({ groupName, tags, bio, meetDatetime, userAmount, id }) => {
 
     const classes = useStyles();
 
@@ -51,7 +53,10 @@ const StudyRoomCard = ({ groupName, tags, bio, meetDatetime, userAmount }) => {
             </CardContent>
             <CardActions className={classes.actions} >
                 <Box mr='auto'>users Online {userAmount}</Box>
+                <Link to={`/studyroom/${id}`} >
+                            
                 <Button variant="contained" color="primary" size="small">Enter Room</Button>
+                        </Link>
             </CardActions>
         </Card>
     )
