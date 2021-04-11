@@ -59,6 +59,25 @@ app.post('/api/find-user', (req, res) => {
 	});
 });
 
+app.post('/api/edit-user', (req, res) => {
+	const id = req.body.id;
+	const major = req.body.major;
+	const bio = req.body.bio;
+	User.findById(id, (issue, user) => {
+		if(!user) {
+			return res.json({"err": "user not found"});
+		}
+		user.bio = bio;
+		user.major = major;
+		user.save((err) =>{
+			if(err) {
+        res.json({'error': 'Error saving data'});
+      }
+			res.json({'success': true});
+		});
+	});
+});
+
 app.post('/api/get-message-board', (req, res) => {
 	const studyGroup = req.body.studyGroup;
 	StudyGroup.find({ name: studyGroup }, (issue, groups) => {
@@ -278,12 +297,9 @@ app.post('/api/create-account', (req, res) => {
 							res.json({
 								'success':
 								{
-
 									id: newUser['_id'],
 									email: newUser['email'],
 									username: newUser['username']
-
-
 								}
 							});
 						}
