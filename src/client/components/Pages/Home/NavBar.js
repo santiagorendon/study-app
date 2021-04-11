@@ -136,7 +136,7 @@ function NavBar() {
               to="/signup"
               style={{ textDecoration: "none", color: "black" }}
             >
-              signup
+              Signup
             </Link>
           </ListItem>
           <ListItem>
@@ -226,7 +226,7 @@ function NavBar() {
 
     
     <div style={navStyle}>
-      <Button onClick={openModal}> Create a Study Group </Button>
+      <Button onClick={openModal} style={buttonStyle}> Create a Study Group </Button>
       <Button onClick={toggleDrawer(true)} style={buttonStyle}>
         Menu
       </Button>
