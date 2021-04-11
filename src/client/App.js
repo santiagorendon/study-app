@@ -11,23 +11,26 @@ import SignUp from "./components/Pages/Home/SignUp";
 import Profile from "./components/Pages/Home/Profile";
 import Home from "./components/Pages/Home";
 import NotificationProvider from "../client/components/shared/Notifications";
+import UserProvider from "./components/Pages/Home/UserProvider"
 
 
 export default function App() {
   return (
 
     <div>
-      <NotificationProvider>
-        <NavBar/>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={SignUp} />
-          <Route exact path="/profile" component={Profile} />
-          {/* <Route exact path="/studyroom" component={StudyRoom} /> */}
-          <Route exact path="/studyroom/:id" component={StudyRoom} />
-        </Switch>
-      </NotificationProvider>
+      <UserProvider>
+        <NotificationProvider>
+          <NavBar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/profile" component={Profile} />
+            {/* <Route exact path="/studyroom" component={StudyRoom} /> */}
+            <Route exact path="/studyroom/:id" component={StudyRoom} />
+          </Switch>
+        </NotificationProvider>
+      </UserProvider>
     </div>
   );
 

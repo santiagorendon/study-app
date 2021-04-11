@@ -12,14 +12,15 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import {UserContext} from "./UserProvider"
 
 const path = "/api/login";
 
 function Login() {
   const history = useHistory();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser } = useContext(UserContext);
 
   const paperStyle = {
     padding: 20,
@@ -62,6 +63,7 @@ function Login() {
           history.push("/");
           const token = response["success"];
           localStorage.token = token;
+          setUser(token);
           return response["success"];
         }
       });
