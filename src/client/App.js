@@ -24,7 +24,8 @@ export default function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/profile" component={Profile} />
-          <Route exact path="/studyroom" component={StudyRoom} />
+          {/* <Route exact path="/studyroom" component={StudyRoom} /> */}
+          <Route exact path="/studyroom/:id" component={StudyRoom} />
         </Switch>
       </NotificationProvider>
     </div>

@@ -16,22 +16,16 @@ const useStyles = makeStyles({
         minHeight: '26rem',
         borderRadius: '5px',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.14), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 1px 5px rgba(0, 0, 0, 0.2)',
-    
+
     },
 
 
 });
 
-const UserList = () => {
+const UserList = ({ users }) => {
     const classes = useStyles();
+    console.log(users)
 
-    function generate(element) {
-        return [0, 1, 2].map((value) =>
-            React.cloneElement(element, {
-                key: value,
-            }),
-        );
-    }
     return (
         <Container className={classes.root}>
             <Typography align='center' gutterBottom variant="h5" >
@@ -39,19 +33,23 @@ const UserList = () => {
             </Typography>
             <div >
                 <List dense='dense'>
-                    {generate(
-                        <ListItem>
+                    {[0, 2, 3, 4].map((user, i) => 
+                        <ListItem key={i}>
                             <ListItemAvatar>
                                 <Avatar>
 
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText
-                                primary="User Name"
-                            // secondary= 'Secondary text'
-                            />
-                        </ListItem>,
-                    )}
+                            <ListItemText >
+                               User {user}
+
+                            </ListItemText>
+
+
+                        </ListItem>
+                 
+               )}
+
                 </List>
             </div>
 
