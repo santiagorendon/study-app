@@ -22,11 +22,16 @@ const StudyGroup= new mongoose.Schema({
     type: String,
     required: true
   },
+  playlistUrl: {
+    type: String,
+  },
   userList: [String],
   bio: {
     type: String
   },
   messageList: [Message]
+}, {
+  timestamps: true
 });
 
 const User= new mongoose.Schema({
