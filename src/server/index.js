@@ -40,6 +40,7 @@ app.post('/api/fetch-one-room', (req, res) => {
 		}
 		res.json({ group });
 	})
+});
 
 
 app.post('/api/find-user', (req, res) => {
@@ -55,6 +56,25 @@ app.post('/api/find-user', (req, res) => {
 			major: user["major"],
 			bio: user["bio"],
 			studyGroups: user["studyGroups"]
+		});
+	});
+});
+
+app.post('/api/edit-user', (req, res) => {
+	const id = req.body.id;
+	const major = req.body.major;
+	const bio = req.body.bio;
+	User.findById(id, (issue, user) => {
+		if (!user) {
+			return res.json({ "err": "user not found" });
+		}
+		user.bio = bio;
+		user.major = major;
+		user.save((err) => {
+			if (err) {
+				res.json({ 'error': 'Error saving data' });
+			}
+			res.json({ 'success': true });
 		});
 	});
 });
@@ -108,26 +128,26 @@ app.post('/api/join-room', (req, res) => {
 	const userId = req.body.userId;
 	const roomName = req.body.roomName;
 	User.findById(userId, (issue, user) => {
-		if(issue) {
-      res.json({'err': issue});
-    }
+		if (issue) {
+			res.json({ 'err': issue });
+		}
 		user.studyGroups.push(roomName);
-		user.save((err, product)=>{
-			if(err) {
-				res.json({'error': 'Error saving data'});
+		user.save((err, product) => {
+			if (err) {
+				res.json({ 'error': 'Error saving data' });
 			}
-			StudyGroup.find({name: roomName}, (issue, groups) => {
+			StudyGroup.find({ name: roomName }, (issue, groups) => {
 				const group = groups[0];
-				if(!group) {
-		      err = "Group name does not exists";
-		      res.status(200).json({error: err});
-		    }
+				if (!group) {
+					err = "Group name does not exists";
+					res.status(200).json({ error: err });
+				}
 				group.userList.push(user['username']);
-				group.save((err, product)=>{
-					if(err){
-		        res.json({'error': 'Error saving data'});
-		      }
-					res.json({'success': "joined room"});
+				group.save((err, product) => {
+					if (err) {
+						res.json({ 'error': 'Error saving data' });
+					}
+					res.json({ 'success': "joined room" });
 				});
 			});
 		});
@@ -142,44 +162,44 @@ app.post('/api/create-room', (req, res) => {
 	const userList = [];
 	userList.push(admin);
 
-  StudyGroup.find({name: name}, (issue, groups) => {
-    const group = groups[0];
-    if(group) {
-      err = "Group name exists";
-      res.status(200).json({error: err});
-    }
-    // create new study group
-    new StudyGroup({
-      admin: admin,
-      name: name,
-      userList: userList,
+	StudyGroup.find({ name: name }, (issue, groups) => {
+		const group = groups[0];
+		if (group) {
+			err = "Group name exists";
+			res.status(200).json({ error: err });
+		}
+		// create new study group
+		new StudyGroup({
+			admin: admin,
+			name: name,
+			userList: userList,
 			playlistUrl: playlistUrl,
-      bio: bio,
+			bio: bio,
 			messageList: []
-    }).save(function(err){
-      if(err){
-        res.json({'error': 'Error saving data'})
-      }
-      else{ // if study group is made
-        User.findOne({username: admin}, (issue, user)=>{
-          if(issue){
-            res.json(issue);
-          }
-          if(user.studyGroups) {
-            user.studyGroups.push(name);
-          }
-          user.save((err, product) => {
-            if(err){
-              res.json(err);
-            }
-            else{
-              res.json({'success': true});
-            }
-          });
-        });
-      }
-    });
-  })
+		}).save(function (err) {
+			if (err) {
+				res.json({ 'error': 'Error saving data' })
+			}
+			else { // if study group is made
+				User.findOne({ username: admin }, (issue, user) => {
+					if (issue) {
+						res.json(issue);
+					}
+					if (user.studyGroups) {
+						user.studyGroups.push(name);
+					}
+					user.save((err, product) => {
+						if (err) {
+							res.json(err);
+						}
+						else {
+							res.json({ 'success': true });
+						}
+					});
+				});
+			}
+		});
+	})
 
 });
 
@@ -278,12 +298,9 @@ app.post('/api/create-account', (req, res) => {
 							res.json({
 								'success':
 								{
-
 									id: newUser['_id'],
 									email: newUser['email'],
 									username: newUser['username']
-
-
 								}
 							});
 						}
