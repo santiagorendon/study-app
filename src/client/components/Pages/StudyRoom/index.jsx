@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 import { Grid, Typography, Container, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -47,13 +49,67 @@ function generate(element) {
 
 const StudyRoom = () => {
     const classes = useStyles();
+    const { id } = useParams();
+    console.log('id')
+    console.log(id)
+    const [studyRoom, setStudyRoom] = useState()
+
+
+    // fetch(path, request)
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((response) => {
+    //     console.log(response);
+    //     if (response["error"]) {
+    //       alert(response["error"]);
+    //     } else {
+    //       history.push("/");
+    //       const token = response["success"];
+    //       localStorage.token = token;
+    //       return response["success"];
+    //     }
+    //   });
+    //   const request = {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    //     body: `password=${password}&email=${email}`,
+    //   };
+  
+
+
+    useEffect(() => {
+        fetch(`/api/fetch-one-room`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `id=${id}`
+        })
+            .then((res) => {
+                console.log('res here')
+                console.log(res)
+                console.log('res here jason')
+                console.log(res.json())
+                // setStudyRoom(res.data)
+                return res.json()
+            })
+            .then((res) => {
+                console.log(res)
+                
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
 
     return (
         <Container className={classes.root}>
             <Grid container className={classes.wrap}>
                 <Grid className='boxx' item sm={7} xs={12}>
                     <Typography variant="h2" component="h1">
-                        Study Room Name
+                       {/* {studyRoom.name} */}
                     </Typography>
                 </Grid>
                 <Grid className='boxx' item xs sm={1}>
@@ -80,6 +136,7 @@ const StudyRoom = () => {
                 </Grid>
                 {/* row 2 */}
                 <Grid
+                    item
                     xs={12}
                     sm
                     container
@@ -87,7 +144,6 @@ const StudyRoom = () => {
                     justify="space-evenly"
                     alignItems="center"
                     className='boxx'
-                    item
                 >
                     <Box p={2}>
 

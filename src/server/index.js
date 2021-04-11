@@ -21,15 +21,32 @@ app.use(session(sessionOptions));
 
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
-app.post('/api/fetch-all', (req, res) => {
+app.get('/api/fetch-all', (req, res) => {
   StudyGroup.find({}, (issue, studyGroups) => {
     console.log(studyGroups);
     if(issue) {
       res.json({'err': issue});
     }
-    res.json({'success': studyGroups});
+    res.json({studyGroups});
   });
 });
+
+app.post('/api/fetch-one-room', (req, res) => {
+	const id = req.body.id;
+	console.log(id);
+	StudyGroup.findById(id, (issue, group) => {
+
+		  console.log(group);
+    if(issue) {
+      res.json({'err': issue});
+    }
+    res.json({group});
+	})
+
+
+})
+  
+
 
 app.post('/api/create-room', (req, res) => {
   const admin = req.body.admin;
