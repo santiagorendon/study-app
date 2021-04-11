@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "./NavBar";
 import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -14,7 +14,9 @@ import {
   CardActionArea,
 } from "@material-ui/core";
 
+const path = "/api/find-the-user";
 function Profile() {
+  const [user, setUser] = useState(null);
   const customStyles = {
     content: {
       top: "50%",
@@ -63,13 +65,22 @@ function Profile() {
     setIsOpen(false);
   }
 
-  // useEffect = (() => {
-  //   fetch("", {
-  //     method: "GET"
-  //   })
-  //   .then(response => response.json())
-  //   .then()
-  // }, [])
+  // useEffect =
+  //   (() => {
+  //     const id = localStorage.token;
+  //     fetch(path, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/x-www-form-urlencoded",
+  //       },
+  //       body: `id=${id}`,
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         setUser(data);
+  //       });
+  //   },
+  //   []);
   // fetch the user information here...
 
   const Profile = () => (
