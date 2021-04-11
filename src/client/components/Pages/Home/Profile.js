@@ -20,7 +20,7 @@ function Profile() {
   const [user, setUser] = useState([]);
   const [major, setMajor] = useState("");
   const [bio, setBio] = useState("");
-  const [courses, setCourses] = useState("");
+  const [study, setStudy] = useState([]);
 
   useEffect(() => {
     const id = localStorage.token;
@@ -51,30 +51,16 @@ function Profile() {
 
   const divStyle = {
     display: "flex",
-    padding: "5px",
-    margin: "5px",
+    justifyContent: "center",
+    flexGrow: 1,
+    width: "100%",
   };
 
   const paperStyle2 = {
-    padding: 20,
+    padding: "20%",
     height: "50vh",
-    width: "75%",
+    width: "280%",
     margin: "20px auto",
-  };
-
-  const profileStyle = {
-    position: "relative",
-    left: "30%",
-    maxWidth: "60%",
-  };
-
-  const gridStyle = {
-    height: "100vh",
-    width: "50em",
-  };
-
-  const gridStyle2 = {
-    height: "25vh",
   };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -92,25 +78,27 @@ function Profile() {
   // fetch the user information here...
   console.log(user);
   const Profile = () => (
-    <Grid style={gridStyle}>
-      <Paper elevation={20} style={paperStyle2}>
+    <Grid>
+      <Paper elevation={10} style={paperStyle2}>
         <Grid align="center">
           <h3>Profile</h3>
-          <Grid align="center">
+          <Grid>
             <Avatar></Avatar>
           </Grid>
           <div>
             <h5>username: {user.username}</h5>
             <h5>email: {user.email}</h5>
-            <h5>age: {user.age === null ? defaultAge : user.age}</h5>
             <h5>Major: {user.major === null ? defaultMajor : user.major}</h5>
-            <h5>Bio {user.bio === null ? defaultBio : user.bio}</h5>
-            <h5>
+            <h5>Bio: {user.bio === null ? defaultBio : user.bio}</h5>
+            {/* <h5>
               Courses: {user.courses === null ? "please work" : defaultCourses}
-            </h5>
+            </h5> */}
           </div>
 
-          <Button onClick={openModal}> Edit Profile </Button>
+          <Button onClick={openModal} color="secondary">
+            {" "}
+            Edit Profile{" "}
+          </Button>
         </Grid>
       </Paper>
     </Grid>
@@ -141,42 +129,45 @@ function Profile() {
     ));
   };
 
-  const handleChange = (e) => {
-    setMajor(([e.target.name.major] = e.target.value));
-    debugger;
+  const handleMajor = (e) => {
+    setMajor(e.target.value);
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   fetch(path, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     body: `id=${id}`,
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setUser(data);
-  //     });
-  // }
+  const handleBio = (e) => {
+    setBio(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(path, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `bio=${bio}&major=${major}`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setStudy(data);
+      });
+  };
 
   return (
     <div>
       <div style={divStyle}>
-        <div>
-          <Grid style={gridStyle}>
-            <Paper elevation={20} style={paperStyle2}>
-              <Grid align="center">
-                <h4> User Study Groups</h4>
-                {user.studyGroups >= 1
-                  ? userStudyGroups()
-                  : "you have no study groups"}
-              </Grid>
-            </Paper>
-          </Grid>
-        </div>
-        <div>{Profile()}</div>
+        <Grid style={{ position: "relative", right: "20%" }}>
+          <Paper elevation={10} style={paperStyle2}>
+            <Grid align="center">
+              <h4> User Study Groups</h4>
+              {user.studyGroups >= 1
+                ? userStudyGroups()
+                : "you have no study groups"}
+            </Grid>
+          </Paper>
+        </Grid>
+
+        {Profile()}
       </div>
 
       <Modal
@@ -188,22 +179,20 @@ function Profile() {
         <Button onClick={closeModal}>close</Button>
         <h5>Edit Profile</h5>
         <form>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <TextField
               name="major"
               value="major"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleMajor(e)}
             />
-            <TextField
-              name="bio"
-              value="bio"
-              onChange={(e) => handleChange(e)}
-            />
-            <TextField
-              name="courses"
-              value="courses"
-              onChange={(e) => handleChange(e)}
-            />
+            <TextField name="bio" value="bio" onChange={(e) => handleBio(e)} />
+
             <Button type="submit" onClick={(e) => handleSubmit(e)}>
               Submit
             </Button>
