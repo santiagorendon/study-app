@@ -31,19 +31,17 @@ app.get('/api/fetch-all', (req, res) => {
   });
 });
 
+
 app.post('/api/fetch-one-room', (req, res) => {
 	const id = req.body.id;
-	console.log(id);
 	StudyGroup.findById(id, (issue, group) => {
-
-		  console.log(group);
     if(issue) {
       res.json({'err': issue});
     }
     res.json({group});
 	})
+});
 
-})
 
 app.post('/api/find-user', (req, res) => {
 	const id = req.body.id;
@@ -126,10 +124,41 @@ app.post('/api/create-message', (req, res) => {
 	});
 });
 
+app.post('/api/join-room', (req, res) => {
+	const userId = req.body.userId;
+	const roomName = req.body.roomName;
+	User.findById(userId, (issue, user) => {
+		if(issue) {
+      res.json({'err': issue});
+    }
+		user.studyGroups.push(roomName);
+		user.save((err, product)=>{
+			if(err) {
+				res.json({'error': 'Error saving data'});
+			}
+			StudyGroup.find({name: roomName}, (issue, groups) => {
+				const group = groups[0];
+				if(!group) {
+		      err = "Group name does not exists";
+		      res.status(200).json({error: err});
+		    }
+				group.userList.push(user['username']);
+				group.save((err, product)=>{
+					if(err){
+		        res.json({'error': 'Error saving data'});
+		      }
+					res.json({'success': "joined room"});
+				});
+			});
+		});
+	});
+});
+
 app.post('/api/create-room', (req, res) => {
   const admin = req.body.admin;
   const name = req.body.name;
   const bio = req.body.bio;
+	let playlistUrl =  req.body.playlistUrl ? req.body.playlistUrl: "";
   const userList = [];
   userList.push(admin);
 
@@ -139,38 +168,37 @@ app.post('/api/create-room', (req, res) => {
       err = "Group name exists";
       res.status(200).json({error: err});
     }
-    else{
-      // create new study group
-      new StudyGroup({
-        admin: admin,
-        name: name,
-        userList: userList,
-        bio: bio,
-				messageList: []
-      }).save(function(err){
-        if(err){
-          res.json({'error': 'Error saving data'})
-        }
-        else{ // if study group is made
-          User.findOne({username: admin}, (issue, user)=>{
-            if(issue){
-              res.json(issue);
+    // create new study group
+    new StudyGroup({
+      admin: admin,
+      name: name,
+      userList: userList,
+			playlistUrl: playlistUrl,
+      bio: bio,
+			messageList: []
+    }).save(function(err){
+      if(err){
+        res.json({'error': 'Error saving data'})
+      }
+      else{ // if study group is made
+        User.findOne({username: admin}, (issue, user)=>{
+          if(issue){
+            res.json(issue);
+          }
+          if(user.studyGroups) {
+            user.studyGroups.push(name);
+          }
+          user.save((err, product) => {
+            if(err){
+              res.json(err);
             }
-            if(user.studyGroups) {
-              user.studyGroups.append(name);
+            else{
+              res.json({'success': true});
             }
-            user.save((err, product) => {
-              if(err){
-                res.json(err);
-              }
-              else{
-                res.json({'success': true});
-              }
-            });
           });
-        }
-      });
-    }
+        });
+      }
+    });
   })
 
 
@@ -205,7 +233,13 @@ app.post('/api/login', (req, res) => {
 				}
         else if (hash === user.hash){
 					req.session.user = user['_id'];
-					res.json({'success': user['_id']});
+					res.json({'success':
+						{
+							id: user['_id'],
+							email: user['email'],
+							username: user['username']
+						}
+					});
 				}
 				else{
 					err = "Password and Email do not match";
@@ -261,7 +295,13 @@ app.post('/api/create-account', (req, res) => {
 			        res.json({'error': 'Error saving data'})
 			      }
 			      else{
-			        res.json({'success': newUser['_id']});
+							res.json({'success':
+								{
+									id: user['_id'],
+									email: user['email'],
+									username: user['username']
+								}
+							});
 			      }
 			    });
 			  });

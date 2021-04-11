@@ -10,6 +10,7 @@ import Login from "./components/Pages/Home/Login";
 import SignUp from "./components/Pages/Home/SignUp";
 import Profile from "./components/Pages/Home/Profile";
 import Home from "./components/Pages/Home";
+import Messaging from "./components/Pages/StudyRoom/Messaging";
 import NotificationProvider from "../client/components/shared/Notifications";
 
 
@@ -24,6 +25,7 @@ export default function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/profile" component={Profile} />
+          <Route exact path="/messaging" component={Messaging} />
           {/* <Route exact path="/studyroom" component={StudyRoom} /> */}
           <Route exact path="/studyroom/:id" component={StudyRoom} />
         </Switch>
