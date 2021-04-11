@@ -6,11 +6,10 @@ const CurrentUser = {
   name: 'Andrew Robertson',
   username: 'RobboSZN',
   avatar:
-    'https://tmssl.akamaized.net/images/portrait/originals/234803-1559827085.jpg',
+    "https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Robot-512.png",
 };
 
 const studyGroupName = "Calculus 2"
-
 
 function Messaging() {
   const [messages, setMessages] = useState([]);
@@ -23,13 +22,19 @@ function Messaging() {
 
     const result = [];
     for(let i=0; i < messageArr.length; i++) {
-        console.log(messageArr[i]["senderId"])
+      //if current message belongs to logged in user
+      let avatarImg;
+      if(messageArr[i]["senderId"] === CurrentUser["_id"]) {
+        avatarImg = "https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Robot-512.png";
+      }
+      else {
+        avatarImg = `https://bootdey.com/img/Content/avatar/avatar${Math.floor(Math.random() * 8)+1}.png`;
+      }
       const user = {
         "_id": messageArr[i]["senderId"],
         "name": 'Andrew Robertson',
         "username": 'RobboSZN',
-        "avatar":
-          'https://tmssl.akamaized.net/images/portrait/originals/234803-1559827085.jpg'
+        "avatar": avatarImg
       }
       result.push({
         "_id":  messageArr[i]["_id"],
