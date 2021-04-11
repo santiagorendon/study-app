@@ -3,9 +3,11 @@ import React, { useState, useEffect, useContext } from 'react'
 import StudyRoomCard from './StudyRoomCard'
 // import { NotificationContext } from '../../shared/Notifications';
 import { NotificationContext } from '../../shared/Notifications'
+
 import { Container, Box, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,7 +30,10 @@ const Home = () => {
         Axios.get(getRooms)
             // .then(( studyGroups ) => console.log(studyGroups.data.studyGroups))
             .then(res => {
-
+useEffect(() => {
+        Axios.get(getRooms)
+            // .then(( studyGroups ) => console.log(studyGroups.data.studyGroups))
+            .then(res => {
                 if (res.status !== 200) {
                     setNotification({
                         type: "error",
@@ -45,7 +50,6 @@ const Home = () => {
                 }
             })
     }, [])
-
     return (
 
         <Container>
@@ -76,6 +80,7 @@ const Home = () => {
                         userAmount={room.userList.length} />
 
                 ))}
+
 
 
             </Grid>

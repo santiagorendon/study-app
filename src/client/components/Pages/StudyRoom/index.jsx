@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Link } from "react-router-dom";
+
 import { Grid, Typography, Container, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
@@ -47,7 +48,8 @@ const StudyRoom = () => {
     const { id } = useParams();
     const [studyRoom, setStudyRoom] = useState({})
 
-    useEffect(() => {
+
+ useEffect(() => {
         fetch(`/api/fetch-one-room`, {
             method: 'POST',
             headers: {
@@ -75,7 +77,9 @@ const StudyRoom = () => {
             <Grid container className={classes.wrap}>
                 <Grid className='boxx' item sm={7} xs={12}>
                     <Typography variant="h2" component="h1">
+
                         {studyRoom.name}
+
                     </Typography>
                 </Grid>
                 <Grid className='boxx' item xs sm={1}>
