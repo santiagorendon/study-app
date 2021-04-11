@@ -64,10 +64,19 @@ function SignUp() {
       alert("passwords don't match");
     } else {
       fetch(path, request)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          history.push("/");
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          console.log(response);
+          if (response["error"]) {
+            alert(response["error"]);
+          } else {
+            history.push("/");
+            const token = response["success"];
+            localStorage.token = token;
+            return response["success"];
+          }
         });
     }
   };
