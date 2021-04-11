@@ -58,11 +58,12 @@ function Login() {
         console.log(response);
         if (response["error"]) {
           alert(response["error"]);
+        } else {
+          history.push("/");
+          const token = response["success"];
+          localStorage.token = token;
+          return response["success"];
         }
-        history.push("/");
-        const token = response["success"];
-        localStorage.token = token;
-        return response["success"];
       });
   };
 

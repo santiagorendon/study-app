@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -12,11 +12,32 @@ import {
   CardContent,
   CardActions,
   CardActionArea,
+  TextField,
 } from "@material-ui/core";
 
-const path = "/api/find-the-user";
+const path = "/api/find-user";
 function Profile() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
+  const [major, setMajor] = useState("");
+  const [bio, setBio] = useState("");
+  const [courses, setCourses] = useState("");
+
+  useEffect(() => {
+    const id = localStorage.token;
+    fetch(path, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `id=${id}`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data);
+      });
+  }, []);
+
+  console.log(user);
   const customStyles = {
     content: {
       top: "50%",
@@ -64,25 +85,12 @@ function Profile() {
   function closeModal() {
     setIsOpen(false);
   }
-
-  // useEffect =
-  //   (() => {
-  //     const id = localStorage.token;
-  //     fetch(path, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/x-www-form-urlencoded",
-  //       },
-  //       body: `id=${id}`,
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         setUser(data);
-  //       });
-  //   },
-  //   []);
+  let defaultAge = "set your age";
+  let defaultMajor = "set your major";
+  let defaultBio = "create your bio";
+  let defaultCourses = "what courses are you currently studying?";
   // fetch the user information here...
-
+  console.log(user);
   const Profile = () => (
     <Grid style={gridStyle}>
       <Paper elevation={20} style={paperStyle2}>
@@ -92,40 +100,66 @@ function Profile() {
             <Avatar></Avatar>
           </Grid>
           <div>
-            <h5>Username</h5>
-            <h5>Email</h5>
-            <h5>Age</h5>
-            <h5>Major</h5>
-            <h5>Bio</h5>
-            <h5>Courses</h5>
+            <h5>username: {user.username}</h5>
+            <h5>email: {user.email}</h5>
+            <h5>age: {user.age === null ? defaultAge : user.age}</h5>
+            <h5>Major: {user.major === null ? defaultMajor : user.major}</h5>
+            <h5>Bio {user.bio === null ? defaultBio : user.bio}</h5>
+            <h5>
+              Courses: {user.courses === null ? "please work" : defaultCourses}
+            </h5>
           </div>
+
           <Button onClick={openModal}> Edit Profile </Button>
         </Grid>
       </Paper>
     </Grid>
   );
 
-  const userStudyGroups = () => (
-    <Card variant="outlined">
-      <CardContent>
-        <Typography color="textSecondary" gutterBottom>
-          blach
-        </Typography>
-        <Typography variant="h5" component="h2">
-          blach
-        </Typography>
-        <Typography color="textSecondary">blach</Typography>
+  //ternary for the h5 tags t set a default value.
 
-        <CardActions>
-          <CardActionArea>
-            <Button size="small">
-              <DeleteOutlineIcon></DeleteOutlineIcon>
-            </Button>
-          </CardActionArea>
-        </CardActions>
-      </CardContent>
-    </Card>
-  );
+  const userStudyGroups = () => {
+    return user.studyGroups.map((group) => (
+      <Card variant="outlined">
+        <CardContent>
+          <Typography color="textSecondary" gutterBottom>
+            {group.name}
+          </Typography>
+          <Typography variant="h5" component="h2">
+            {group.bio}
+          </Typography>
+
+          <CardActions>
+            <CardActionArea>
+              <Button size="small">
+                <DeleteOutlineIcon></DeleteOutlineIcon>
+              </Button>
+            </CardActionArea>
+          </CardActions>
+        </CardContent>
+      </Card>
+    ));
+  };
+
+  const handleChange = (e) => {
+    setMajor(([e.target.name.major] = e.target.value));
+    debugger;
+  };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault()
+  //   fetch(path, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //     body: `id=${id}`,
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //     });
+  // }
 
   return (
     <div>
@@ -135,7 +169,9 @@ function Profile() {
             <Paper elevation={20} style={paperStyle2}>
               <Grid align="center">
                 <h4> User Study Groups</h4>
-                {userStudyGroups()}
+                {user.studyGroups >= 1
+                  ? userStudyGroups()
+                  : "you have no study groups"}
               </Grid>
             </Paper>
           </Grid>
@@ -153,10 +189,24 @@ function Profile() {
         <h5>Edit Profile</h5>
         <form>
           <div>
-            <input type="text" name="major" value="major" />
-            <input type="text" name="major" value="major" />
-            <textarea name="bio" value="major" />
-            <textarea name="courses" value="courses" />
+            <TextField
+              name="major"
+              value="major"
+              onChange={(e) => handleChange(e)}
+            />
+            <TextField
+              name="bio"
+              value="bio"
+              onChange={(e) => handleChange(e)}
+            />
+            <TextField
+              name="courses"
+              value="courses"
+              onChange={(e) => handleChange(e)}
+            />
+            <Button type="submit" onClick={(e) => handleSubmit(e)}>
+              Submit
+            </Button>
           </div>
         </form>
       </Modal>

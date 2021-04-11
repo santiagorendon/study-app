@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Drawer,
@@ -16,9 +16,31 @@ import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
 
 const path = "/api/logout";
+const path2 = "/api/find-user";
+const path3 = "/api/create-room";
 
 function NavBar() {
   const [state, setState] = useState(false);
+  const [user, setUser] = useState([]);
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+
+  useEffect(() => {
+    const id = localStorage.token;
+    fetch(path2, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `id=${id}`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setUser(data);
+      });
+  }, []);
+  console.log(user);
   const navStyle = {
     backgroundColor: "pink",
     opacity: ".6",
@@ -109,8 +131,31 @@ function NavBar() {
     </div>
   );
 
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleBio = (e) => {
+    setBio(e.target.value);
+  };
+
   const handleClick = (e) => {
-    console.log(e);
+    console.log(user);
+
+    e.preventDefault();
+
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `name=${name}&bio=${bio}&admin=${user}`,
+    };
+
+    fetch(path3, request)
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => console.log(data));
   };
 
   const renderModal = () => (
@@ -129,9 +174,9 @@ function NavBar() {
         </h2>
       </div>
 
-      <TextField label="name" />
-      <TextField label="Bio" />
-      <FormControl>
+      <TextField label="name" name="name" onChange={(e) => handleName(e)} />
+      <TextField label="Bio" name="bio" onChange={(e) => handleBio(e)} />
+      {/* <FormControl>
         <InputLabel shrink htmlFor="select-multiple-native">
           Native
         </InputLabel>
@@ -144,7 +189,7 @@ function NavBar() {
         >
           Courses to select from?
         </Select>
-      </FormControl>
+      </FormControl> */}
       <Button type="submit" onClick={(e) => handleClick(e)}>
         Enter
       </Button>
