@@ -1,8 +1,8 @@
-import React, { useEffect, useState , useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import NavBar from "./NavBar";
 import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { UserContext } from './UserProvider';
+import { UserContext } from "./UserProvider";
 import {
   Paper,
   Avatar,
@@ -16,7 +16,8 @@ import {
   TextField,
 } from "@material-ui/core";
 
-const path = "/api/find-user";
+const path = "/api/edit-user";
+const path2 = "/api/find-user";
 
 function Profile() {
   const { user, setUser } = useContext(UserContext);
@@ -25,22 +26,23 @@ function Profile() {
   const [bio, setBio] = useState("");
   const [study, setStudy] = useState([]);
 
-  useEffect(() => {
-    const id = localStorage.token;
-    fetch(path, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `id=${id}`,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const id = localStorage.token;
+  //   fetch(path2, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //     body: `id=${id}`,
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //     });
+  // }, []);
 
   console.log(user);
+
   const customStyles = {
     content: {
       top: "50%",
@@ -74,12 +76,9 @@ function Profile() {
   function closeModal() {
     setIsOpen(false);
   }
-  let defaultAge = "set your age";
-  let defaultMajor = "set your major";
-  let defaultBio = "create your bio";
-  let defaultCourses = "what courses are you currently studying?";
+
   // fetch the user information here...
-  console.log(user);
+
   const Profile = () => (
     <Grid>
       <Paper elevation={10} style={paperStyle2}>
@@ -89,13 +88,10 @@ function Profile() {
             <Avatar></Avatar>
           </Grid>
           <div>
-            <h5>username: {user.username}</h5>
-            <h5>email: {user.email}</h5>
-            <h5>Major: {user.major === null ? defaultMajor : user.major}</h5>
-            <h5>Bio: {user.bio === null ? defaultBio : user.bio}</h5>
-            {/* <h5>
-              Courses: {user.courses === null ? "please work" : defaultCourses}
-            </h5> */}
+            <h5> Username: {user.username}</h5>
+            <h5> Email: {user.email}</h5>
+            {/* <h5> Major: {user.major}</h5>
+            <h5> Bio: {user.bio}</h5> */}
           </div>
 
           <Button onClick={openModal} color="secondary">
@@ -142,12 +138,14 @@ function Profile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    closeModal();
+    const id = user.id;
     fetch(path, {
-      method: "PATCH",
+      method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: `bio=${bio}&major=${major}`,
+      body: `bio=${bio}&major=${major}&id=${id}`,
     })
       .then((response) => response.json())
       .then((data) => {
@@ -155,7 +153,7 @@ function Profile() {
         setStudy(data);
       });
   };
-
+  console.log(study);
   return (
     <div>
       <div style={divStyle}>
@@ -163,9 +161,9 @@ function Profile() {
           <Paper elevation={10} style={paperStyle2}>
             <Grid align="center">
               <h4> User Study Groups</h4>
-              {user.studyGroups >= 1
+              {/* {user.studyGroups >= 1
                 ? userStudyGroups()
-                : "you have no study groups"}
+                : "you have no study groups"} */}
             </Grid>
           </Paper>
         </Grid>
@@ -191,10 +189,14 @@ function Profile() {
           >
             <TextField
               name="major"
-              value="major"
+              placeholder={user.major}
               onChange={(e) => handleMajor(e)}
             />
-            <TextField name="bio" value="bio" onChange={(e) => handleBio(e)} />
+            <TextField
+              name="bio"
+              placeholder={user.bio}
+              onChange={(e) => handleBio(e)}
+            />
 
             <Button type="submit" onClick={(e) => handleSubmit(e)}>
               Submit

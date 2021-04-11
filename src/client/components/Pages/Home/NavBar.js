@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Button,
   Drawer,
@@ -14,9 +14,8 @@ import {
 } from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
-import {UserContext} from "./UserProvider"
+import { UserContext } from "./UserProvider";
 import { useHistory } from "react-router-dom";
-
 
 const path = "/api/logout";
 const path2 = "/api/find-user";
@@ -29,7 +28,7 @@ function NavBar() {
   const [bio, setBio] = useState("");
   const { user, setUser } = useContext(UserContext);
   const history = useHistory();
-
+  console.log(user);
   // useEffect(() => {
   //   const id = localStorage.token;
   //   fetch(path2, {
@@ -46,7 +45,6 @@ function NavBar() {
   //     });
   // }, []);
   // console.log(user);
-
 
   const navStyle = {
     backgroundColor: "pink",
@@ -164,7 +162,7 @@ function NavBar() {
     console.log(user);
 
     e.preventDefault();
-
+    closeModal();
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -223,8 +221,6 @@ function NavBar() {
   );
 
   return (
-
-    
     <div style={navStyle}>
       <Button onClick={openModal}> Create a Study Group </Button>
       <Button onClick={toggleDrawer(true)} style={buttonStyle}>
