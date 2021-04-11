@@ -40,6 +40,7 @@ app.post('/api/fetch-one-room', (req, res) => {
 		}
 		res.json({ group });
 	})
+})
 
 
 app.post('/api/find-user', (req, res) => {
@@ -91,35 +92,44 @@ app.post('/api/get-message-board', (req, res) => {
 
 app.post('/api/create-message', (req, res) => {
 	const text = req.body.text;
-	const sender = req.body.sender;
+	const senderId = req.body.senderId;
 	const studyGroup = req.body.studyGroup;
+	console.log(senderId)
 	StudyGroup.find({ name: studyGroup }, (issue, groups) => {
 		if (issue) {
-			res.status(200).json({ error: issue });
+			res.json({ error: issue });
 		}
-		const group = groups[0];
-		if (!group) { // group DNE
-			err = "Group does not exist";
-			res.status(200).json({ error: err });
-		}
-		const message = new Message({ // create message
-			text: text,
-			sender: sender,
-			studyGroup: group
-		});
-		message.save(function (err) {
-			if (err) {
-				res.json({ 'error': 'Error saving data' });
+		else{
+			const group = groups[0];
+			if (!group) { // group DNE
+				err = "Group does not exist";
+				res.json({ error: err });
 			}
-			group.messageList.push(message);
-			group.save((err, product) => {
-				if (err) {
-					res.json({ 'error': 'Error saving data' });
-				}
-				res.json({ 'success': true });
-			});
+			else{
+				const message = new Message({ // create message
+					text: text,
+					senderId: senderId,
+					studyGroup: group
+				});
+				message.save(function (err) {
+					if (err) {
+						res.json({ 'error': 'Error saving data3' });
+					}
+					else {
+						group.messageList.push(message);
+						group.save((err, product) => {
+							if (err) {
+								res.json({ 'error': err });
+							}
+							else{
+								res.json({ 'success': true });
+							}
+						});
+					}
+				});
+			}
+		}
 
-		});
 	});
 });
 
