@@ -61,9 +61,11 @@ function Login() {
           alert(response["error"]);
         } else {
           history.push("/");
-          const token = response["success"];
-          localStorage.token = token;
-          setUser(token);
+          // const token = response["success"];
+          const userData = response["success"];
+          console.log(userData)
+          localStorage.token = userData.id;
+          setUser(userData);
           return response["success"];
         }
       });
