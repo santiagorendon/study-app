@@ -3,20 +3,37 @@ import React, { useState, useEffect, useContext } from 'react'
 import StudyRoomCard from './StudyRoomCard'
 // import { NotificationContext } from '../../shared/Notifications';
 import { NotificationContext } from '../../shared/Notifications'
-import { Container } from '@material-ui/core'
+
+import { Container, Box, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        // background: '#222',
+    },
+    input: {
+        width:'30rem',
+        marginBottom:'1rem',
+
+    }
+
+}));
 
 const Home = () => {
     const getRooms = "/api/fetch-all"
     const { setNotification } = useContext(NotificationContext);
     const [rooms, setRooms] = useState([])
-
+    const classes = useStyles();
     useEffect(() => {
         Axios.get(getRooms)
             // .then(( studyGroups ) => console.log(studyGroups.data.studyGroups))
             .then(res => {
-                console.log(res.data.studyGroups)
+useEffect(() => {
+        Axios.get(getRooms)
+            // .then(( studyGroups ) => console.log(studyGroups.data.studyGroups))
+            .then(res => {
                 if (res.status !== 200) {
                     setNotification({
                         type: "error",
@@ -24,8 +41,6 @@ const Home = () => {
                     });
                 } else if (res.status === 200) {
                     setRooms(res.data.studyGroups)
-                    console.log('res')
-                    console.log(res)
 
                 } else {
                     setNotification({
@@ -35,22 +50,28 @@ const Home = () => {
                 }
             })
     }, [])
-
     return (
 
-        <div>
-            {console.log(rooms)}
-  
-            <h1>  Group List</h1>
+        <Container>
+            <Grid
+                container
+                direction="column"
+                justify="center"
+                alignItems="center"
+            >
 
+                <Box m={5} >
+                    <h1>  Group List</h1>
+                </Box>
+                <form className={classes.root} noValidate autoComplete="off">
+            
+                    <TextField className={classes.input}  id="outlined-basic" label="Search" variant="outlined" />
+                </form>
 
-
-                {/* get from, the DB and populate the room card */}
-            <Container>
                 {rooms.map((room, i) => (
-                   
+
                     <StudyRoomCard
-                        key={i} 
+                        key={i}
                         groupName={room.name}
                         tags='Tags'
                         bio={room.bio}
@@ -59,19 +80,11 @@ const Home = () => {
                         userAmount={room.userList.length} />
 
                 ))}
-            </Container>
-
-            {/* <StudyRoomCard
-                groupName=' Study group Example'
-                tags='Tags'
-                bio='Bio about the class and resources. embed the time of recurrent meeting'
-                meetDatetime='21/21'
-                userAmount='03' /> */}
-
-              
 
 
-        </div>
+
+            </Grid>
+        </Container>
     )
 }
 

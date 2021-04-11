@@ -31,6 +31,7 @@ app.get('/api/fetch-all', (req, res) => {
   });
 });
 
+
 app.post('/api/fetch-one-room', (req, res) => {
 	const id = req.body.id;
 	StudyGroup.findById(id, (issue, group) => {
@@ -40,7 +41,6 @@ app.post('/api/fetch-one-room', (req, res) => {
     res.json({group});
 	})
 
-})
 
 app.post('/api/find-user', (req, res) => {
 	const id = req.body.id;
