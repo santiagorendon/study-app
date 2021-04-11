@@ -320,4 +320,14 @@ app.post('/api/create-account', (req, res) => {
 
 });
 
+if (process.env.NODE_ENV === 'production') {
+    // app.use(express.static(path.join(__dirname, 'dist')));
+    app.use('/dist', express.static(path.join(__dirname, '../../dist')));
+    app.get('*', function (req, res) {
+        res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
+        //response.sendFile(path.join(__dirname, 'src/client/build', 'index.html'));
+    });
+}
+
+
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
