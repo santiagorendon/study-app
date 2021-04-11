@@ -42,7 +42,6 @@ app.post('/api/fetch-one-room', (req, res) => {
 	})
 })
 
-
 app.post('/api/find-user', (req, res) => {
 	const id = req.body.id;
 	User.findById(id, (issue, user) => {
