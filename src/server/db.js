@@ -24,10 +24,13 @@ const StudyGroup= new mongoose.Schema({
   },
   playlistUrl: {
     type: String,
+    default: 'https://www.youtube.com/embed/reRYtjr1BNo'
   },
   userList: [String],
   bio: {
-    type: String
+    type: String,
+    default: 'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicer'
+    
   },
   messageList: [Message]
 }, {
@@ -48,9 +51,11 @@ const User= new mongoose.Schema({
   },
   major: {
     type: String,
+    default: 'Default'
   },
   bio: {
     type: String,
+    default: 'Default'
   },
   hash: {
     type: String,

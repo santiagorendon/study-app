@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-var hash =require('pbkdf2-password')()
+var hash = require('pbkdf2-password')()
 const path = require('path');
-require('dotenv').config({path: path.join(__dirname, '/.env')}); // put ur own path
+require('dotenv').config({ path: path.join(__dirname, '/.env') }); // put ur own path
 require("./db.js");
 const os = require('os');
 const mongoose = require('mongoose');
@@ -10,7 +10,7 @@ const User = mongoose.model('User');
 const StudyGroup = mongoose.model('StudyGroup');
 const Message = mongoose.model('Message');
 app.use(express.static('dist'));
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 const session = require('express-session');
 
 const sessionOptions = {
@@ -23,31 +23,30 @@ app.use(session(sessionOptions));
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
 app.get('/api/fetch-all', (req, res) => {
-  StudyGroup.find({}, (issue, studyGroups) => {
-    if(issue) {
-      res.json({'err': issue});
-    }
-    res.json({studyGroups});
-  });
+	StudyGroup.find({}, (issue, studyGroups) => {
+		if (issue) {
+			res.json({ 'err': issue });
+		}
+		res.json({ studyGroups });
+	});
 });
 
 
 app.post('/api/fetch-one-room', (req, res) => {
 	const id = req.body.id;
 	StudyGroup.findById(id, (issue, group) => {
-    if(issue) {
-      res.json({'err': issue});
-    }
-    res.json({group});
+		if (issue) {
+			res.json({ 'err': issue });
+		}
+		res.json({ group });
 	})
-});
 
 
 app.post('/api/find-user', (req, res) => {
 	const id = req.body.id;
 	User.findById(id, (issue, user) => {
-		if(!user) {
-			return res.json({"err": "user not found"});
+		if (!user) {
+			return res.json({ "err": "user not found" });
 		}
 		return res.json({
 			email: user["email"],
@@ -81,10 +80,10 @@ app.post('/api/edit-user', (req, res) => {
 
 app.post('/api/get-message-board', (req, res) => {
 	const studyGroup = req.body.studyGroup;
-	StudyGroup.find({name: studyGroup}, (issue, groups) => {
+	StudyGroup.find({ name: studyGroup }, (issue, groups) => {
 		const group = groups[0];
-		if(issue) {
-			res.status(200).json({error: issue});
+		if (issue) {
+			res.status(200).json({ error: issue });
 		}
 		res.json({ "messages": group["messageList"] });
 	});
@@ -94,30 +93,30 @@ app.post('/api/create-message', (req, res) => {
 	const text = req.body.text;
 	const sender = req.body.sender;
 	const studyGroup = req.body.studyGroup;
-	StudyGroup.find({name: studyGroup}, (issue, groups) => {
-		if(issue) {
-			res.status(200).json({error: issue});
+	StudyGroup.find({ name: studyGroup }, (issue, groups) => {
+		if (issue) {
+			res.status(200).json({ error: issue });
 		}
 		const group = groups[0];
-    if(!group) { // group DNE
-      err = "Group does not exist";
-      res.status(200).json({error: err});
-    }
+		if (!group) { // group DNE
+			err = "Group does not exist";
+			res.status(200).json({ error: err });
+		}
 		const message = new Message({ // create message
 			text: text,
 			sender: sender,
 			studyGroup: group
 		});
-		message.save(function(err){
-			if(err){
-        res.json({'error': 'Error saving data'});
-      }
+		message.save(function (err) {
+			if (err) {
+				res.json({ 'error': 'Error saving data' });
+			}
 			group.messageList.push(message);
-			group.save((err, product)=>{
-				if(err) {
-					res.json({'error': 'Error saving data'});
+			group.save((err, product) => {
+				if (err) {
+					res.json({ 'error': 'Error saving data' });
 				}
-				res.json({'success': true});
+				res.json({ 'success': true });
 			});
 
 		});
@@ -155,12 +154,12 @@ app.post('/api/join-room', (req, res) => {
 });
 
 app.post('/api/create-room', (req, res) => {
-  const admin = req.body.admin;
-  const name = req.body.name;
-  const bio = req.body.bio;
-	let playlistUrl =  req.body.playlistUrl ? req.body.playlistUrl: "";
-  const userList = [];
-  userList.push(admin);
+	const admin = req.body.admin;
+	const name = req.body.name;
+	const bio = req.body.bio;
+	let playlistUrl = req.body.playlistUrl ? req.body.playlistUrl : "";
+	const userList = [];
+	userList.push(admin);
 
   StudyGroup.find({name: name}, (issue, groups) => {
     const group = groups[0];
@@ -201,39 +200,39 @@ app.post('/api/create-room', (req, res) => {
     });
   })
 
-
 });
 
 app.get('/api/logout', (req, res) => {
 	req.session.user = undefined;
-  res.send('logged out');
+	res.send('logged out');
 });
 
 app.post('/api/login', (req, res) => {
 	const email = req.body.email;
-	const password  = req.body.password;
+	const password = req.body.password;
 	let err = '';
-	User.find({email: email}, (issue, users)=>{
+	User.find({ email: email }, (issue, users) => {
 		const user = users[0];
-		if(!(email && password)){
+		if (!(email && password)) {
 			err = "Please fill in both fields";
 		}
-		else if(!user){
+		else if (!user) {
 			err = "Email does not exist";
 		}
-		if(err){
-			res.status(200).json({error: err});
+		if (err) {
+			res.status(200).json({ error: err });
 		}
 		//valid username
-		else{
+		else {
 			hash({ password: password, salt: user.salt }, function (err, pass, salt, hash) {
-				if(err){
+				if (err) {
 					err = "Password and Email do not match";
-					res.status(200).json({error: err});
+					res.status(200).json({ error: err });
 				}
-        else if (hash === user.hash){
+				else if (hash === user.hash) {
 					req.session.user = user['_id'];
-					res.json({'success':
+					res.json({
+						'success':
 						{
 							id: user['_id'],
 							email: user['email'],
@@ -241,73 +240,74 @@ app.post('/api/login', (req, res) => {
 						}
 					});
 				}
-				else{
+				else {
 					err = "Password and Email do not match";
-					res.status(200).json({error: err});
+					res.status(200).json({ error: err });
 				}
-      });
+			});
 		}
 	});
 });
 
 app.post('/api/create-account', (req, res) => {
-  const email = req.body.email;
+	const email = req.body.email;
 	const username = req.body.username;
-	const password  = req.body.password;
+	const password = req.body.password;
 	const confirmPassword = req.body.confirmPassword;
 	let err = "";
 
-	User.find({username: username}, (issue, users)=>{
-    if(users[0]){
+	User.find({ username: username }, (issue, users) => {
+		if (users[0]) {
 			err = "Username exists";
-			res.status(200).json({error: err});
+			res.status(200).json({ error: err });
 		}
 		//new user
-		else{
-			if(!(username && password && confirmPassword)){
+		else {
+			if (!(username && password && confirmPassword)) {
 				err = "All fields must be filled";
 			}
-			else if(username === password){
+			else if (username === password) {
 				err = "Password cannot be username";
 			}
-			else if(password !== confirmPassword){
+			else if (password !== confirmPassword) {
 				err = "Passwords must match";
 			}
-			else if(password.length < 8){
+			else if (password.length < 8) {
 				err = "Password must be at least 8 characters long";
 			}
-			if(err){
-				res.status(200).json({error: err});
+			if (err) {
+				res.status(200).json({ error: err });
 			}
-			else{
+			else {
 				hash({ password: password }, function (err, pass, salt, hash) {
-			    if (err) throw err;
-			    // store the salt & hash in the "db"
+					if (err) throw err;
+					// store the salt & hash in the "db"
 					const newUser = new User({
-            email: email,
-			      username: username,
+						email: email,
+						username: username,
 						salt: salt,
-			      hash: hash,
-            studyGroups: []
-			    });
-          newUser.save(function(err){
-			      if(err){
-			        res.json({'error': 'Error saving data'})
-			      }
-			      else{
-							res.json({'success':
+						hash: hash,
+						studyGroups: []
+					});
+					newUser.save(function (err) {
+						if (err) {
+							res.json({ 'error': 'Error saving data' })
+						}
+						else {
+							res.json({
+								'success':
 								{
 									id: newUser['_id'],
 									email: newUser['email'],
 									username: newUser['username']
 								}
 							});
-			      }
-			    });
-			  });
+						}
+					});
+				});
 			}
 		}
-  });
+	});
 
 });
 
