@@ -86,7 +86,7 @@ const StudyRoom = () => {
                 <Grid className='boxx' item xs sm={1}>
                     <Box m={1}>
 
-                        Date
+                        Date:
                     </Box>
                 </Grid>
                 <Grid
@@ -141,7 +141,7 @@ const StudyRoom = () => {
                     item
                 >
                     <UserList
-                        users={studyRoom.UserList}
+                        // users={studyRoom.userList}
                     />
 
                 </Grid>
