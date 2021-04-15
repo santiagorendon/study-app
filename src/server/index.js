@@ -112,7 +112,7 @@ app.post('/api/create-message', (req, res) => {
 				});
 				message.save(function (err) {
 					if (err) {
-						res.json({ 'error': 'Error saving data3' });
+						res.json({ 'error': err });
 					}
 					else {
 						group.messageList.push(message);

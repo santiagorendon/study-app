@@ -74,7 +74,7 @@ const Home = () => {
                         groupName={room.name}
                         tags='Tags'
                         bio={room.bio}
-                        meetDatetime={room._id}
+                        meetDatetime='22/22'
                         id={room._id}
                         userAmount={room.userList.length} />
 
