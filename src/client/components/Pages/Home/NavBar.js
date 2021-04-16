@@ -222,7 +222,10 @@ function NavBar() {
 
   return (
     <div style={navStyle}>
-      <Button onClick={openModal} style={buttonStyle}> Create a Study Group </Button>
+      <Button onClick={openModal} style={buttonStyle}>
+        {" "}
+        Create a Study Group{" "}
+      </Button>
       <Button onClick={toggleDrawer(true)} style={buttonStyle}>
         Menu
       </Button>
