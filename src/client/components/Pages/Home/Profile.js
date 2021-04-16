@@ -1,8 +1,7 @@
-import React, { useEffect, useState , useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import NavBar from "./NavBar";
 import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { UserContext } from './UserProvider';
 import {
   Paper,
   Avatar,
@@ -15,9 +14,9 @@ import {
   CardActionArea,
   TextField,
 } from "@material-ui/core";
+import { UserContext } from "./UserProvider";
 
 const path = "/api/find-user";
-
 function Profile() {
   const { user, setUser } = useContext(UserContext);
   // const [user, setUser] = useState([]);
@@ -25,22 +24,22 @@ function Profile() {
   const [bio, setBio] = useState("");
   const [courses, setCourses] = useState("");
 
-  useEffect(() => {
-    const id = localStorage.token;
-    fetch(path, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `id=${id}`,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const id = localStorage.token;
+  //   fetch(path, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //     body: `id=${id}`,
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //     });
+  // }, []);
 
-  console.log(user);
+  console.log("this is on the profile page", user);
   const customStyles = {
     content: {
       top: "50%",
@@ -95,7 +94,7 @@ function Profile() {
             <h5>email: {user.email}</h5>
             {/* <h5>age: {user.age === null ? defaultAge : user.age}</h5> */}
             <h5>Major: {user.major === null ? defaultMajor : user.major}</h5>
-            <h5>Bio {user.bio === null ? defaultBio : user.bio}</h5>
+            <h5>Bio: {user.bio === null ? defaultBio : user.bio}</h5>
             <h5>
               Courses: {user.courses === null ? "please work" : defaultCourses}
             </h5>
@@ -142,24 +141,22 @@ function Profile() {
       setBio(e.target.value);
     }
   };
-
-  console.log("please find me", major);
-  console.log("please find me again!", bio);
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   fetch(path, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     body: `id=${id}`,
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setUser(data);
-  //     });
-  // }
+  const path = "/api/edit-user";
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(path, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `id=${user.id}&bio=${bio}&major=${major}`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("this is the response", data);
+        setUser(data);
+      });
+  };
 
   return (
     <div>
@@ -214,13 +211,13 @@ function Profile() {
               onChange={(e) => handleChange(e)}
             />  */}
             <div style={{ display: "flex", flexDirection: "column" }}>
-              {/* <Button
+              <Button
                 type="submit"
                 color="secondary"
                 onClick={(e) => handleSubmit(e)}
-              > */}
-              {/* Submit
-              </Button> */}
+              >
+                Submit
+              </Button>
               <Button onClick={closeModal} color="secondary">
                 close
               </Button>
