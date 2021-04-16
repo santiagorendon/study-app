@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import {
   Button,
   Drawer,
@@ -14,6 +14,9 @@ import {
 } from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
+import {UserContext} from "./UserProvider"
+import { useHistory } from "react-router-dom";
+
 
 const path = "/api/logout";
 const path2 = "/api/find-user";
@@ -21,25 +24,29 @@ const path3 = "/api/create-room";
 
 function NavBar() {
   const [state, setState] = useState(false);
-  const [user, setUser] = useState([]);
+
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const history = useHistory();
 
-  useEffect(() => {
-    const id = localStorage.token;
-    fetch(path2, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `id=${id}`,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setUser(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const id = localStorage.token;
+  //   fetch(path2, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //     body: `id=${id}`,
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUser(data);
+  //     });
+  // }, []);
+  // console.log(user);
+
 
   const navStyle = {
     backgroundColor: "pink",
@@ -85,6 +92,8 @@ function NavBar() {
 
   const handleLogout = () => {
     localStorage.clear();
+    setUser(null);
+    history.push("/");
     // fetch(path, {
     //   method: "GET",
     // }).then(response => console.log(response))
@@ -127,7 +136,7 @@ function NavBar() {
               to="/signup"
               style={{ textDecoration: "none", color: "black" }}
             >
-              signup
+              Signup
             </Link>
           </ListItem>
           <ListItem>
@@ -214,8 +223,10 @@ function NavBar() {
   );
 
   return (
+
+    
     <div style={navStyle}>
-      <Button onClick={openModal}> Create a Study Group </Button>
+      <Button onClick={openModal} style={buttonStyle}> Create a Study Group </Button>
       <Button onClick={toggleDrawer(true)} style={buttonStyle}>
         Menu
       </Button>

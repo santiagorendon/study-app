@@ -13,6 +13,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 import TextField from '@material-ui/core/TextField';
 import UserList from './UserList';
+import Messaging from "./Messaging";
 
 const useStyles = makeStyles({
     root: {
@@ -85,7 +86,7 @@ const StudyRoom = () => {
                 <Grid className='boxx' item xs sm={1}>
                     <Box m={1}>
 
-                        Date
+                        Date:
                     </Box>
                 </Grid>
                 <Grid
@@ -140,38 +141,13 @@ const StudyRoom = () => {
                     item
                 >
                     <UserList
-                        users={studyRoom.UserList}
+                        // users={studyRoom.userList}
                     />
 
                 </Grid>
 
                 <Grid sm={12} xs={12}>
-                    <Card className={classes.chat}>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-
-                        </CardContent>
-                        <CardActions>
-                            <form className={classes.form} noValidate autoComplete="off">
-                                <TextField size="small" id="standard-basic" label="Standard" />
-
-                                <Button size="small">Send</Button>
-                            </form>
-
-                        </CardActions>
-                    </Card>
-
+                    <Messaging />
                 </Grid>
 
 
@@ -184,4 +160,3 @@ const StudyRoom = () => {
 }
 
 export default StudyRoom
-

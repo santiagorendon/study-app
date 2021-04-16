@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { Card, Box } from '@material-ui/core';
+import { Card, Box ,Grid} from '@material-ui/core';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
@@ -10,10 +10,10 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     root: {
-        minWidth: 275,
-        maxWidth: 500,
+        width: '480px',
+        // maxWidth: 550,
         background: '#E0E5EB',
-        margin:'1rem',
+        margin: '1rem',
     },
     bullet: {
         display: 'inline-block',
@@ -41,25 +41,38 @@ const StudyRoomCard = ({ groupName, tags, bio, meetDatetime, userAmount, id }) =
             <CardContent >
 
                 <Typography variant="h5" component="h2">
-                    {groupName}
-                    <Box ml={2} component='span'>({meetDatetime})</Box>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        alignItems="center"
+                    >
+                        <Grid item>
+
+                        {groupName}
+                        </Grid>
+                        <Grid item>
+                        {meetDatetime}
+                        </Grid>
+                    </Grid>
+                    
                 </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                    {tags}
-                </Typography>
-                <Typography variant="body2" component="p">
-                    {bio} {meetDatetime}
-                </Typography>
+                    <Typography className={classes.pos} color="textSecondary">
+                        {tags}
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                        {bio} 
+                    </Typography>
             </CardContent>
-            <CardActions className={classes.actions} >
-                <Box mr='auto'>users Online {userAmount}</Box>
-                <Link to={`/studyroom/${id}`} >
-                            
-                <Button variant="contained" color="primary" size="small">Enter Room</Button>
-                        </Link>
-            </CardActions>
+                <CardActions className={classes.actions} >
+                    <Box mr='auto'>Online Users {userAmount}</Box>
+                    <Link to={`/studyroom/${id}`} >
+
+                        <Button variant="contained" color="primary" size="small">Enter Room</Button>
+                    </Link>
+                </CardActions>
         </Card>
-    )
+            )
 }
 
-export default StudyRoomCard
+            export default StudyRoomCard
