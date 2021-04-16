@@ -53,6 +53,9 @@ function Profile() {
     display: "flex",
     padding: "5px",
     margin: "5px",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "stretch",
   };
 
   const paperStyle2 = {
@@ -60,21 +63,6 @@ function Profile() {
     height: "50vh",
     width: "75%",
     margin: "20px auto",
-  };
-
-  const profileStyle = {
-    position: "relative",
-    left: "30%",
-    maxWidth: "60%",
-  };
-
-  const gridStyle = {
-    height: "100vh",
-    width: "50em",
-  };
-
-  const gridStyle2 = {
-    height: "25vh",
   };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -92,7 +80,7 @@ function Profile() {
   // fetch the user information here...
   console.log(user);
   const Profile = () => (
-    <Grid style={gridStyle}>
+    <Grid xs>
       <Paper elevation={20} style={paperStyle2}>
         <Grid align="center">
           <h3>Profile</h3>
@@ -102,7 +90,7 @@ function Profile() {
           <div>
             <h5>username: {user.username}</h5>
             <h5>email: {user.email}</h5>
-            <h5>age: {user.age === null ? defaultAge : user.age}</h5>
+            {/* <h5>age: {user.age === null ? defaultAge : user.age}</h5> */}
             <h5>Major: {user.major === null ? defaultMajor : user.major}</h5>
             <h5>Bio {user.bio === null ? defaultBio : user.bio}</h5>
             <h5>
@@ -120,31 +108,40 @@ function Profile() {
 
   const userStudyGroups = () => {
     return user.studyGroups.map((group) => (
-      <Card variant="outlined">
-        <CardContent>
-          <Typography color="textSecondary" gutterBottom>
-            {group.name}
-          </Typography>
-          <Typography variant="h5" component="h2">
-            {group.bio}
-          </Typography>
+      <Grid>
+        <Card variant="outlined">
+          <CardContent>
+            <Typography color="textSecondary" gutterBottom>
+              {group.name}
+            </Typography>
+            <Typography variant="h5" component="h2">
+              {group.bio}
+            </Typography>
 
-          <CardActions>
-            <CardActionArea>
-              <Button size="small">
-                <DeleteOutlineIcon></DeleteOutlineIcon>
-              </Button>
-            </CardActionArea>
-          </CardActions>
-        </CardContent>
-      </Card>
+            <CardActions>
+              <CardActionArea>
+                <Button size="small">
+                  <DeleteOutlineIcon></DeleteOutlineIcon>
+                </Button>
+              </CardActionArea>
+            </CardActions>
+          </CardContent>
+        </Card>
+      </Grid>
     ));
   };
 
   const handleChange = (e) => {
-    setMajor(([e.target.name.major] = e.target.value));
-    debugger;
+    if (e.target.name === "major") {
+      setMajor(e.target.value);
+    }
+    if (e.target.name === "bio") {
+      setBio(e.target.value);
+    }
   };
+
+  console.log("please find me", major);
+  console.log("please find me again!", bio);
 
   // const handleSubmit = (e) => {
   //   e.preventDefault()
@@ -165,7 +162,7 @@ function Profile() {
     <div>
       <div style={divStyle}>
         <div>
-          <Grid style={gridStyle}>
+          <Grid xs={12}>
             <Paper elevation={20} style={paperStyle2}>
               <Grid align="center">
                 <h4> User Study Groups</h4>
@@ -185,28 +182,46 @@ function Profile() {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <Button onClick={closeModal}>close</Button>
         <h5>Edit Profile</h5>
         <form>
-          <div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             <TextField
+              label="major"
+              placeholder={user.major}
               name="major"
-              value="major"
               onChange={(e) => handleChange(e)}
+              // label="Email"
+              // placeholder="Enter Your Email"
+              // name="email"
+              // onChange={(e) => handleEmail(e)}
+              fullWidth
+              required
             />
             <TextField
+              label="bio"
+              placeholder={user.bio}
               name="bio"
-              value="bio"
               onChange={(e) => handleChange(e)}
+              fullWidth
+              required
             />
-            <TextField
+            {/* <TextField
               name="courses"
               value="courses"
               onChange={(e) => handleChange(e)}
-            />
-            <Button type="submit" onClick={(e) => handleSubmit(e)}>
-              Submit
-            </Button>
+            />  */}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {/* <Button
+                type="submit"
+                color="secondary"
+                onClick={(e) => handleSubmit(e)}
+              > */}
+              {/* Submit
+              </Button> */}
+              <Button onClick={closeModal} color="secondary">
+                close
+              </Button>
+            </div>
           </div>
         </form>
       </Modal>
