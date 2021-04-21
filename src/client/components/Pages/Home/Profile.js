@@ -65,6 +65,7 @@ function Profile() {
     height: "50vh",
     width: "75%",
     margin: "20px auto",
+    overflow: "scroll",
   };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -110,26 +111,28 @@ function Profile() {
 
   const userStudyGroups = () => {
     return user.studyGroups.map((group) => (
-      <Grid>
-        <Card variant="outlined">
-          <CardContent>
-            <Typography color="textSecondary" gutterBottom>
-              {group.name}
-            </Typography>
-            <Typography variant="h5" component="h2">
+      <div>
+        <Grid>
+          <Card variant="outlined">
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                {group}
+              </Typography>
+              {/* <Typography variant="h5" component="h2">
               {group.bio}
-            </Typography>
+            </Typography> */}
 
-            <CardActions>
-              <CardActionArea>
-                <Button size="small">
-                  <DeleteOutlineIcon></DeleteOutlineIcon>
-                </Button>
-              </CardActionArea>
-            </CardActions>
-          </CardContent>
-        </Card>
-      </Grid>
+              <CardActions>
+                <CardActionArea>
+                  <Button size="small">
+                    <DeleteOutlineIcon></DeleteOutlineIcon>
+                  </Button>
+                </CardActionArea>
+              </CardActions>
+            </CardContent>
+          </Card>
+        </Grid>
+      </div>
     ));
   };
 
@@ -166,9 +169,13 @@ function Profile() {
             <Paper elevation={20} style={paperStyle2}>
               <Grid align="center">
                 <h4> User Study Groups</h4>
-                {user.studyGroups >= 1
+                {/* {user.studyGroups.map((group) => (
+                  <div> {group} </div>
+                ))} */}
+                {userStudyGroups()}
+                {/* {user.studyGroups >= 1
                   ? userStudyGroups()
-                  : "you have no study groups"}
+                  : "you have no study groups"} */}
               </Grid>
             </Paper>
           </Grid>
