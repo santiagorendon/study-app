@@ -24,21 +24,6 @@ function Profile() {
   const [bio, setBio] = useState("");
   const [courses, setCourses] = useState("");
 
-  // useEffect(() => {
-  //   const id = localStorage.token;
-  //   fetch(path, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     body: `id=${id}`,
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setUser(data);
-  //     });
-  // }, []);
-
   console.log("this is on the profile page", user);
   const customStyles = {
     content: {
@@ -76,6 +61,19 @@ function Profile() {
   function closeModal() {
     setIsOpen(false);
   }
+
+  const handleDelete = (group) => {
+    console.log(group);
+    fetch(path, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }).then(() => {
+      return user.studyGroups.filter((studyGroup) => studyGroup !== group);
+    });
+  };
+  //run this delete function by the group.
   let defaultAge = "set your age";
   let defaultMajor = "set your major";
   let defaultBio = "create your bio";
@@ -83,7 +81,7 @@ function Profile() {
   // fetch the user information here...
   console.log(user);
   const Profile = () => (
-    <Grid xs>
+    <Grid item xs>
       <Paper elevation={20} style={paperStyle2}>
         <Grid align="center">
           <h3>Profile</h3>
@@ -124,7 +122,7 @@ function Profile() {
 
               <CardActions>
                 <CardActionArea>
-                  <Button size="small">
+                  <Button size="small" onClick={() => handleDelete(group)}>
                     <DeleteOutlineIcon></DeleteOutlineIcon>
                   </Button>
                 </CardActionArea>
@@ -172,10 +170,10 @@ function Profile() {
                 {/* {user.studyGroups.map((group) => (
                   <div> {group} </div>
                 ))} */}
-                {userStudyGroups()}
-                {/* {user.studyGroups >= 1
+                {/* {userStudyGroups()} */}
+                {user.studyGroups
                   ? userStudyGroups()
-                  : "you have no study groups"} */}
+                  : "you have no study groups"}
               </Grid>
             </Paper>
           </Grid>
