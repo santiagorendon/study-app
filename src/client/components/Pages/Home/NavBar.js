@@ -15,7 +15,7 @@ import {
 import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
 import { UserContext } from "./UserProvider";
-import { NotificationContext } from "..../shared/Notifications";
+// import { NotificationContext } from "..../shared/Notifications";
 import { useHistory } from "react-router-dom";
 
 const path = "/api/logout";
