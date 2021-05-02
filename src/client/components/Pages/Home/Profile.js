@@ -4,7 +4,6 @@ import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { UserContext } from "./UserProvider";
 
-
 import {
   Paper,
   Avatar,
@@ -17,11 +16,9 @@ import {
   CardActionArea,
   TextField,
 } from "@material-ui/core";
-import { UserContext } from "./UserProvider";
 
 const path = "/api/edit-user";
 const path2 = "/api/find-user";
-
 
 function Profile() {
   const { user, setUser } = useContext(UserContext);
@@ -46,7 +43,6 @@ function Profile() {
 
   console.log(user);
 
-
   console.log("this is on the profile page", user);
 
   const customStyles = {
@@ -67,7 +63,6 @@ function Profile() {
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "stretch",
-
   };
 
   const paperStyle2 = {
@@ -76,7 +71,6 @@ function Profile() {
     width: "280%",
     margin: "20px auto",
     overflow: "scroll",
-
   };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -87,7 +81,6 @@ function Profile() {
   function closeModal() {
     setIsOpen(false);
   }
-
 
   const handleDelete = (group) => {
     console.log(group);
@@ -109,28 +102,42 @@ function Profile() {
   // fetch the user information here...
 
   const Profile = () => (
-
     <Grid item xs>
       <Paper elevation={20} style={paperStyle2}>
         <Grid align="center">
-          <h3>Profile</h3>
+          <h3> Profile </h3>
           <Grid>
             <Avatar></Avatar>
           </Grid>
-          <div>
-            <h5> Username: {user.username}</h5>
-            <h5> Email: {user.email}</h5>
-            {/* <h5> Major: {user.major}</h5>
-            <h5> Bio: {user.bio}</h5> */
-          </div>
-
-          <Button onClick={openModal} color="secondary">
-            {" "}
-            Edit Profile{" "}
-          </Button>
+          <h5>Username: {user.username} </h5>
+          <h5>Email: {user.email} </h5>
+          <h5> Bio: {user.bio}</h5>
         </Grid>
+        <Button onClick={openModal} color="secondary">
+          Edit Profile
+        </Button>
       </Paper>
     </Grid>
+    // <Grid item xs>
+    //   <Paper elevation={20} style={paperStyle2}>
+    //     <Grid align="center">
+    //       <h3>Profile</h3>
+    //       <Grid>
+    //         <Avatar></Avatar>
+    //       </Grid>
+
+    //         <h5> Username: {user.username}</h5>
+    //         <h5> Email: {user.email}</h5>
+    //         {/* <h5> Major: {user.major}</h5>
+    //         <h5> Bio: {user.bio}</h5> */
+
+    //       <Button onClick={openModal} color="secondary">
+    //         {" "}
+    //         Edit Profile{" "}
+    //       </Button>
+    //     </Grid>
+    //   </Paper>
+    // </Grid>
   );
 
   //ternary for the h5 tags t set a default value.
@@ -162,7 +169,6 @@ function Profile() {
     ));
   };
 
-
   const handleChange = (e) => {
     if (e.target.name === "major") {
       setMajor(e.target.value);
@@ -171,23 +177,6 @@ function Profile() {
       setBio(e.target.value);
     }
   };
-  const path = "/api/edit-user";
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch(path, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `id=${user.id}&bio=${bio}&major=${major}`,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("this is the response", data);
-        setUser(data);
-      });
-  };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -237,7 +226,6 @@ function Profile() {
       >
         <h5>Edit Profile</h5>
         <form>
-
           <div style={{ display: "flex", flexDirection: "column" }}>
             <TextField
               label="major"
@@ -250,7 +238,6 @@ function Profile() {
               // onChange={(e) => handleEmail(e)}
               fullWidth
               required
-
             />
             <TextField
               label="bio"
