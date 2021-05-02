@@ -2,6 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import NavBar from "./NavBar";
 import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { UserContext } from "./UserProvider";
+
+
 import {
   Paper,
   Avatar,
@@ -16,15 +19,36 @@ import {
 } from "@material-ui/core";
 import { UserContext } from "./UserProvider";
 
-const path = "/api/find-user";
+const path = "/api/edit-user";
+const path2 = "/api/find-user";
+
+
 function Profile() {
   const { user, setUser } = useContext(UserContext);
   // const [user, setUser] = useState([]);
   const [major, setMajor] = useState("");
   const [bio, setBio] = useState("");
-  const [courses, setCourses] = useState("");
+  const [study, setStudy] = useState([]);
+  // useEffect(() => {
+  //   const id = localStorage.token;
+  //   fetch(path2, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //     body: `id=${id}`,
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setUser(data);
+  //     });
+  // }, []);
+
+  console.log(user);
+
 
   console.log("this is on the profile page", user);
+
   const customStyles = {
     content: {
       top: "50%",
@@ -43,14 +67,16 @@ function Profile() {
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "stretch",
+
   };
 
   const paperStyle2 = {
-    padding: 20,
+    padding: "20%",
     height: "50vh",
-    width: "75%",
+    width: "280%",
     margin: "20px auto",
     overflow: "scroll",
+
   };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -61,6 +87,7 @@ function Profile() {
   function closeModal() {
     setIsOpen(false);
   }
+
 
   const handleDelete = (group) => {
     console.log(group);
@@ -78,28 +105,29 @@ function Profile() {
   let defaultMajor = "set your major";
   let defaultBio = "create your bio";
   let defaultCourses = "what courses are you currently studying?";
+
   // fetch the user information here...
-  console.log(user);
+
   const Profile = () => (
+
     <Grid item xs>
       <Paper elevation={20} style={paperStyle2}>
         <Grid align="center">
           <h3>Profile</h3>
-          <Grid align="center">
+          <Grid>
             <Avatar></Avatar>
           </Grid>
           <div>
-            <h5>username: {user.username}</h5>
-            <h5>email: {user.email}</h5>
-            {/* <h5>age: {user.age === null ? defaultAge : user.age}</h5> */}
-            <h5>Major: {user.major === null ? defaultMajor : user.major}</h5>
-            <h5>Bio: {user.bio === null ? defaultBio : user.bio}</h5>
-            <h5>
-              Courses: {user.courses === null ? "please work" : defaultCourses}
-            </h5>
+            <h5> Username: {user.username}</h5>
+            <h5> Email: {user.email}</h5>
+            {/* <h5> Major: {user.major}</h5>
+            <h5> Bio: {user.bio}</h5> */
           </div>
 
-          <Button onClick={openModal}> Edit Profile </Button>
+          <Button onClick={openModal} color="secondary">
+            {" "}
+            Edit Profile{" "}
+          </Button>
         </Grid>
       </Paper>
     </Grid>
@@ -134,6 +162,7 @@ function Profile() {
     ));
   };
 
+
   const handleChange = (e) => {
     if (e.target.name === "major") {
       setMajor(e.target.value);
@@ -159,6 +188,25 @@ function Profile() {
       });
   };
 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    closeModal();
+    const id = user.id;
+    fetch(path, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `bio=${bio}&major=${major}&id=${id}`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setStudy(data);
+      });
+  };
+  console.log(study);
   return (
     <div>
       <div style={divStyle}>
@@ -189,6 +237,7 @@ function Profile() {
       >
         <h5>Edit Profile</h5>
         <form>
+
           <div style={{ display: "flex", flexDirection: "column" }}>
             <TextField
               label="major"
@@ -201,6 +250,7 @@ function Profile() {
               // onChange={(e) => handleEmail(e)}
               fullWidth
               required
+
             />
             <TextField
               label="bio"
