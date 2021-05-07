@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from 'react';
-
-import { Link } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
 import { Grid, Typography, Container, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import { useParams } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-
-import TextField from '@material-ui/core/TextField';
 import UserList from './UserList';
 import Messaging from "./Messaging";
 
 const useStyles = makeStyles({
     root: {
-
         background: '#E0E5EB',
     },
     wrap: {
-
-
         padding: '2rem',
     },
     videoContainer: {
@@ -30,10 +19,10 @@ const useStyles = makeStyles({
         // position: 'relative',
         // maxWidth: '500px',
     },
-
     chat: {
         background: '#888',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.14), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 1px 5px rgba(0, 0, 0, 0.2)',
+        margin: '2rem',
     },
     form: {
         background: '#999',
@@ -78,14 +67,11 @@ const StudyRoom = () => {
             <Grid container className={classes.wrap}>
                 <Grid className='boxx' item sm={7} xs={12}>
                     <Typography variant="h2" component="h1">
-
                         {studyRoom.name}
-
                     </Typography>
                 </Grid>
                 <Grid className='boxx' item xs sm={1}>
                     <Box m={1}>
-
                         Date:
                     </Box>
                 </Grid>
@@ -119,8 +105,6 @@ const StudyRoom = () => {
                     className='boxx'
                 >
                     <Box p={2}>
-
-
                         <Typography variant="body1" component="p">
                             {studyRoom.bio}
                         </Typography>
@@ -146,7 +130,7 @@ const StudyRoom = () => {
 
                 </Grid>
 
-                <Grid sm={12} xs={12}>
+                <Grid sm={12} xs={12} >
                     <Messaging />
                 </Grid>
 
