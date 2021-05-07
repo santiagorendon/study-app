@@ -8,7 +8,7 @@ import { withRouter, Route, Switch } from "react-router-dom";
 import "./app.css";
 import Login from "./components/Pages/Home/Login";
 import SignUp from "./components/Pages/Home/SignUp";
-import Profile from "./components/Pages/Home/Profile";
+import Profile from "./components/Pages/Profile";
 import Home from "./components/Pages/Home";
 import Messaging from "./components/Pages/StudyRoom/Messaging";
 import NotificationProvider from "../client/components/shared/Notifications";

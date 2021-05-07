@@ -172,20 +172,14 @@ function NavBar() {
   };
 
   const handleClick = (e) => {
+    console.log(user);
 
     e.preventDefault();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     closeModal();
->>>>>>> main
-=======
-    closeModal();
->>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `name=${"Biology"}&bio=${"lets learn together"}&admin=${"soccerfan1"}`,
+      body: `name=${name}&bio=${bio}&admin=${user}`,
     };
 
     fetch(path3, request)
@@ -193,13 +187,6 @@ function NavBar() {
         console.log(response);
         return response.json();
       })
-<<<<<<< HEAD
-<<<<<<< HEAD
-      .then((data) => history.push('/'));
-=======
-=======
-
->>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
       .then((data) => console.log(data));
 
 //     if (user) {
@@ -214,11 +201,7 @@ function NavBar() {
 //     } else {
 //       console.log(notification);
 //     }
-<<<<<<< HEAD
 
->>>>>>> main
-=======
->>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
   };
 
   const renderModal = () => (
@@ -282,14 +265,6 @@ function NavBar() {
   );
 
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-=======
->>>>>>> main
-=======
->>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
     <div style={navStyle}>
       <Button onClick={openModal} style={buttonStyle}>
         {" "}

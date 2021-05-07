@@ -21,6 +21,10 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
 app.use(function(req, res, next) {
   // Website you wish to allow to connect
 res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -40,11 +44,15 @@ next();
 });
 
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
+<<<<<<< HEAD
 =======
 app.get("/api/getUsername", (req, res) =>
   res.send({ username: os.userInfo().username })
 );
 >>>>>>> main
+=======
+
+>>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
 
 app.get("/api/fetch-all", (req, res) => {
   StudyGroup.find({}, (issue, studyGroups) => {
@@ -335,6 +343,10 @@ app.post("/api/create-account", (req, res) => {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
 if (process.env.NODE_ENV === 'production') {
     // app.use(express.static(path.join(__dirname, 'dist')));
     app.use('/dist', express.static(path.join(__dirname, '../../dist')));
@@ -346,8 +358,12 @@ if (process.env.NODE_ENV === 'production') {
 
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
+<<<<<<< HEAD
 =======
 app.listen(process.env.PORT || 8080, () =>
   console.log(`Listening on port ${process.env.PORT || 8080}!`)
 );
 >>>>>>> main
+=======
+
+>>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
