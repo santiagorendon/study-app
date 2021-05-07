@@ -1,18 +1,17 @@
 
-
 import React from "react";
 import StudyRoom from './components/Pages/StudyRoom';
-import NavBar from './components/Pages/Home/NavBar'
+import NavBar from './components/shared/NavBar'
 // import NavBar from './components/Home/NavBar';
 import { withRouter, Route, Switch } from "react-router-dom";
 import "./app.css";
-import Login from "./components/Pages/Home/Login";
-import SignUp from "./components/Pages/Home/SignUp";
+import Login from "./components/Pages/Login";
+import SignUp from "./components/Pages/SignUp";
 import Profile from "./components/Pages/Profile";
 import Home from "./components/Pages/Home";
 import Messaging from "./components/Pages/StudyRoom/Messaging";
-import NotificationProvider from "../client/components/shared/Notifications";
-import UserProvider from "./components/Pages/Home/UserProvider"
+import NotificationProvider from "./components/shared/Notifications";
+import UserProvider from "./components/shared/UserProvider"
 
 
 export default function App() {

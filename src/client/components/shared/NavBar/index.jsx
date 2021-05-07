@@ -14,8 +14,8 @@ import {
 } from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
-import { UserContext } from "./UserProvider";
-import { NotificationContext } from "../../shared/Notifications";
+import { UserContext } from "../UserProvider";
+import { NotificationContext } from "../Notifications";
 import { useHistory } from "react-router-dom";
 
 const path = "/api/logout";
@@ -174,7 +174,14 @@ function NavBar() {
   const handleClick = (e) => {
 
     e.preventDefault();
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
     closeModal();
+>>>>>>> main
+=======
+    closeModal();
+>>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -186,6 +193,13 @@ function NavBar() {
         console.log(response);
         return response.json();
       })
+<<<<<<< HEAD
+<<<<<<< HEAD
+      .then((data) => history.push('/'));
+=======
+=======
+
+>>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
       .then((data) => console.log(data));
 
 //     if (user) {
@@ -200,7 +214,11 @@ function NavBar() {
 //     } else {
 //       console.log(notification);
 //     }
+<<<<<<< HEAD
 
+>>>>>>> main
+=======
+>>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
   };
 
   const renderModal = () => (
@@ -264,6 +282,14 @@ function NavBar() {
   );
 
   return (
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> main
+=======
+>>>>>>> 4b3673b9a7899794510645451880d2dfd0bf0172
     <div style={navStyle}>
       <Button onClick={openModal} style={buttonStyle}>
         {" "}
