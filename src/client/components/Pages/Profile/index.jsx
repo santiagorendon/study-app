@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import NavBar from "./NavBar";
+import NavBar from "../../shared/NavBar";
 import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { UserContext } from "./UserProvider";
+import { UserContext } from "../../shared/UserProvider";
 
 
 import {

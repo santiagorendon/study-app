@@ -12,20 +12,15 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import {UserContext} from "./UserProvider"
+import {UserContext} from "../../shared/UserProvider"
 
-const api = "http://localhost:8080";
-const path = "/api/create-account";
+const path = "/api/login";
 
-function SignUp() {
+function Login() {
   const history = useHistory();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [username, setUsername] = useState("");
   const { setUser } = useContext(UserContext);
-
 
   const paperStyle = {
     padding: 20,
@@ -41,19 +36,9 @@ function SignUp() {
     setEmail(e.target.value);
   };
 
-  const handleUsername = (e) => {
-    console.log(e.target.value);
-    setUsername(e.target.value);
-  };
-
   const handlePassword = (e) => {
     console.log(e.target.value);
     setPassword(e.target.value);
-  };
-
-  const handleConfirmPassword = (e) => {
-    console.log(e.target.value);
-    setConfirmPassword(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -61,31 +46,29 @@ function SignUp() {
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `username=${username}&password=${password}&confirmPassword=${confirmPassword}&email=${email}`,
+      body: `password=${password}&email=${email}`,
     };
-    if (password !== confirmPassword) {
-      alert("passwords don't match");
-    } else {
-      fetch(path, request)
-        .then((response) => {
-          return response.json();
-        })
-        .then((response) => {
-          console.log(response);
-          if (response["error"]) {
-            alert(response["error"]);
-          } else {
-            history.push("/");
-            const userData = response["success"];
-            console.log(userData)
-            localStorage.token = userData.id;
-            setUser(userData);
-            // const token = response["success"];
-            // localStorage.token = token;
-            return response["success"];
-          }
-        });
-    }
+    // if (password !== confirmPassword) {
+    //   alert("passwords don't match");
+    // } else {
+    fetch(path, request)
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        console.log(response);
+        if (response["error"]) {
+          alert(response["error"]);
+        } else {
+          history.push("/");
+          // const token = response["success"];
+          const userData = response["success"];
+          console.log(userData)
+          localStorage.token = userData.id;
+          setUser(userData);
+          return response["success"];
+        }
+      });
   };
 
   // const authResponse = (data) => {
@@ -108,21 +91,13 @@ function SignUp() {
               <Avatar style={avatarStyle}>
                 <LockOutlinedIcon></LockOutlinedIcon>
               </Avatar>
-              <h2>Sign Up</h2>
+              <h2>Sign In</h2>
             </Grid>
             <TextField
               label="Email"
-              placeholder="Enter Your Email"
+              placeholder="Enter Email"
               name="email"
               onChange={(e) => handleEmail(e)}
-              fullWidth
-              required
-            />
-            <TextField
-              label=" Create a Username"
-              placeholder="Enter Username"
-              onChange={(e) => handleUsername(e)}
-              name="username"
               fullWidth
               required
             />
@@ -130,16 +105,6 @@ function SignUp() {
               label="Password"
               placeholder="Enter Password"
               onChange={(e) => handlePassword(e)}
-              name="password"
-              type="password"
-              fullWidth
-              required
-            />
-            <TextField
-              label="Password"
-              placeholder="Confirm Password"
-              onChange={(e) => handleConfirmPassword(e)}
-              name="confirmPassword"
               type="password"
               fullWidth
               required
@@ -157,12 +122,12 @@ function SignUp() {
               onClick={(e) => handleSubmit(e)}
             >
               {" "}
-              Sign Up{" "}
+              Sign In{" "}
             </Button>
             <Typography>
               {" "}
-              have an account
-              <Link to="/login"> Login</Link>
+              Don't have an account?
+              <Link to="/signup">Sign Up</Link>
             </Typography>
           </Paper>
         </Grid>
@@ -171,4 +136,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;
