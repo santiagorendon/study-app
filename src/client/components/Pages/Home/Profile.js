@@ -4,7 +4,6 @@ import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { UserContext } from "./UserProvider";
 
-
 import {
   Paper,
   Avatar,
@@ -20,7 +19,6 @@ import {
 
 const path = "/api/edit-user";
 const path2 = "/api/find-user";
-
 
 function Profile() {
   const { user, setUser } = useContext(UserContext);
@@ -45,7 +43,6 @@ function Profile() {
 
   console.log(user);
 
-
   console.log("this is on the profile page", user);
 
   const customStyles = {
@@ -66,7 +63,6 @@ function Profile() {
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "stretch",
-
   };
 
   const paperStyle2 = {
@@ -75,7 +71,6 @@ function Profile() {
     width: "280%",
     margin: "20px auto",
     overflow: "scroll",
-
   };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -86,7 +81,6 @@ function Profile() {
   function closeModal() {
     setIsOpen(false);
   }
-
 
   const handleDelete = (group) => {
     console.log(group);
@@ -100,15 +94,10 @@ function Profile() {
     });
   };
   //run this delete function by the group.
-  let defaultAge = "set your age";
-  let defaultMajor = "set your major";
-  let defaultBio = "create your bio";
-  let defaultCourses = "what courses are you currently studying?";
 
   // fetch the user information here...
 
   const Profile = () => (
-
     <Grid item xs>
       <Paper elevation={20} style={paperStyle2}>
         <Grid align="center">
@@ -159,7 +148,6 @@ function Profile() {
     ));
   };
 
-
   const handleChange = (e) => {
     if (e.target.name === "major") {
       setMajor(e.target.value);
@@ -186,7 +174,6 @@ function Profile() {
       });
   };
 
-  console.log(study);
   return (
     <div>
       <div style={divStyle}>
@@ -217,7 +204,6 @@ function Profile() {
       >
         <h5>Edit Profile</h5>
         <form>
-
           <div style={{ display: "flex", flexDirection: "column" }}>
             <TextField
               label="major"
@@ -230,7 +216,6 @@ function Profile() {
               // onChange={(e) => handleEmail(e)}
               fullWidth
               required
-
             />
             <TextField
               label="bio"

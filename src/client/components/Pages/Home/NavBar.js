@@ -31,7 +31,6 @@ function NavBar() {
   const { user, setUser } = useContext(UserContext);
   const { notification, setNotification } = useContext(NotificationContext);
   const history = useHistory();
-  console.log(user);
   // useEffect(() => {
   //   const id = localStorage.token;
   //   fetch(path2, {
@@ -189,19 +188,18 @@ function NavBar() {
       })
       .then((data) => console.log(data));
 
-//     if (user) {
-//       const request = {
-//         method: "POST",
-//         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-//         body: `name=${name}&bio=${bio}&admin=${user.id}&playlistUrl=${playlistUrl}`,
-//       };
-//       fetch(path3, request)
-//         .then((response) => response.json())
-//         .then((data) => console.log(data));
-//     } else {
-//       console.log(notification);
-//     }
-
+    //     if (user) {
+    //       const request = {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    //         body: `name=${name}&bio=${bio}&admin=${user.id}&playlistUrl=${playlistUrl}`,
+    //       };
+    //       fetch(path3, request)
+    //         .then((response) => response.json())
+    //         .then((data) => console.log(data));
+    //     } else {
+    //       console.log(notification);
+    //     }
   };
 
   const renderModal = () => (
