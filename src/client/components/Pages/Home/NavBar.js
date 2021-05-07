@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Button,
   Drawer,
@@ -14,9 +14,9 @@ import {
 } from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
-import {UserContext} from "./UserProvider"
+import { UserContext } from "./UserProvider";
+import { NotificationContext } from "../../shared/Notifications";
 import { useHistory } from "react-router-dom";
-
 
 const path = "/api/logout";
 const path2 = "/api/find-user";
@@ -27,9 +27,11 @@ function NavBar() {
 
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
+  const [playlistUrl, setPlaylist] = useState("");
   const { user, setUser } = useContext(UserContext);
+  const { notification, setNotification } = useContext(NotificationContext);
   const history = useHistory();
-
+  console.log(user);
   // useEffect(() => {
   //   const id = localStorage.token;
   //   fetch(path2, {
@@ -47,13 +49,18 @@ function NavBar() {
   // }, []);
   // console.log(user);
 
-
   const navStyle = {
     backgroundColor: "pink",
     opacity: ".6",
     display: "flex",
     justifyContent: "space-around",
     paddingBottom: "1rem",
+  };
+
+  const divStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   };
 
   const customStyles = {
@@ -152,17 +159,25 @@ function NavBar() {
     </div>
   );
 
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleBio = (e) => {
-    setBio(e.target.value);
+  const handleChange = (e) => {
+    if (e.target.name === "name") {
+      setName(e.target.value);
+    }
+    if (e.target.name === "bio") {
+      setBio(e.target.value);
+    }
+    if (e.target.name === "playlist") {
+      setPlaylist(e.target.value);
+    }
   };
 
   const handleClick = (e) => {
 
     e.preventDefault();
+<<<<<<< HEAD
+=======
+    closeModal();
+>>>>>>> main
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -174,7 +189,25 @@ function NavBar() {
         console.log(response);
         return response.json();
       })
+<<<<<<< HEAD
       .then((data) => history.push('/'));
+=======
+      .then((data) => console.log(data));
+
+//     if (user) {
+//       const request = {
+//         method: "POST",
+//         headers: { "Content-Type": "application/x-www-form-urlencoded" },
+//         body: `name=${name}&bio=${bio}&admin=${user.id}&playlistUrl=${playlistUrl}`,
+//       };
+//       fetch(path3, request)
+//         .then((response) => response.json())
+//         .then((data) => console.log(data));
+//     } else {
+//       console.log(notification);
+//     }
+
+>>>>>>> main
   };
 
   const renderModal = () => (
@@ -184,25 +217,42 @@ function NavBar() {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div style={divStyle}>
+        {/* admin: admin,
+      name: name,
+      userList: userList,
+      playlistUrl: playlistUrl,
+      bio: bio,
+      messageList: [],
+      **resource is not in the fetch?
+      */}
+
         <h2 className="create-study">Create A Study Group</h2>
+        <form style={divStyle}>
+          {/* <div> Admin: {user.}</div> */}
+          <TextField
+            label="Name"
+            name="name"
+            onChange={(e) => handleChange(e)}
+          />
+          <TextField label="Bio" name="bio" onChange={(e) => handleChange(e)} />
+          <TextField
+            label="Playlist"
+            name="playlist"
+            style={{ overflow: "scroll", whiteSpace: "nowrap" }}
+            placeholder="Paste your playlist"
+            onChange={(e) => handleChange(e)}
+          />
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Button type="submit" onClick={(e) => handleClick(e)}>
+              Enter
+            </Button>
 
-        <TextField label="name" name="name" onChange={(e) => handleName(e)} />
-        <TextField label="Bio" name="bio" onChange={(e) => handleBio(e)} />
+            <Button onClick={closeModal}>close</Button>
+          </div>
+        </form>
       </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Button type="submit" onClick={(e) => handleClick(e)}>
-          Enter
-        </Button>
 
-        <Button onClick={closeModal}>close</Button>
-      </div>
       {/* <FormControl>
         <InputLabel shrink htmlFor="select-multiple-native">
           Native
@@ -221,10 +271,16 @@ function NavBar() {
   );
 
   return (
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> main
     <div style={navStyle}>
-      <Button onClick={openModal} style={buttonStyle}> Create a Study Group </Button>
+      <Button onClick={openModal} style={buttonStyle}>
+        {" "}
+        Create a Study Group{" "}
+      </Button>
       <Button onClick={toggleDrawer(true)} style={buttonStyle}>
         Menu
       </Button>
