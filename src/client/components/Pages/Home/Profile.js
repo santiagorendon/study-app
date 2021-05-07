@@ -17,7 +17,6 @@ import {
   CardActionArea,
   TextField,
 } from "@material-ui/core";
-import { UserContext } from "./UserProvider";
 
 const path = "/api/edit-user";
 const path2 = "/api/find-user";
@@ -120,8 +119,6 @@ function Profile() {
           <div>
             <h5> Username: {user.username}</h5>
             <h5> Email: {user.email}</h5>
-            {/* <h5> Major: {user.major}</h5>
-            <h5> Bio: {user.bio}</h5> */
           </div>
 
           <Button onClick={openModal} color="secondary">
@@ -174,23 +171,6 @@ function Profile() {
   const path = "/api/edit-user";
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(path, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `id=${user.id}&bio=${bio}&major=${major}`,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("this is the response", data);
-        setUser(data);
-      });
-  };
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
     closeModal();
     const id = user.id;
     fetch(path, {
@@ -202,10 +182,10 @@ function Profile() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setStudy(data);
       });
   };
+
   console.log(study);
   return (
     <div>
