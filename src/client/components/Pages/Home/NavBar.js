@@ -15,7 +15,7 @@ import {
 import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
 import { UserContext } from "./UserProvider";
-// import { NotificationContext } from "..../shared/Notifications";
+import { NotificationContext } from "../../shared/Notifications";
 import { useHistory } from "react-router-dom";
 
 const path = "/api/logout";
@@ -189,19 +189,18 @@ function NavBar() {
       })
       .then((data) => console.log(data));
 
-//     if (user) {
-//       const request = {
-//         method: "POST",
-//         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-//         body: `name=${name}&bio=${bio}&admin=${user.id}&playlistUrl=${playlistUrl}`,
-//       };
-//       fetch(path3, request)
-//         .then((response) => response.json())
-//         .then((data) => console.log(data));
-//     } else {
-//       console.log(notification);
-//     }
-
+    //     if (user) {
+    //       const request = {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    //         body: `name=${name}&bio=${bio}&admin=${user.id}&playlistUrl=${playlistUrl}`,
+    //       };
+    //       fetch(path3, request)
+    //         .then((response) => response.json())
+    //         .then((data) => console.log(data));
+    //     } else {
+    //       console.log(notification);
+    //     }
   };
 
   const renderModal = () => (

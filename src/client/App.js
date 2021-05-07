@@ -1,8 +1,6 @@
-
-
 import React from "react";
-import StudyRoom from './components/Pages/StudyRoom';
-import NavBar from './components/Pages/Home/NavBar'
+import StudyRoom from "./components/Pages/StudyRoom";
+import NavBar from "./components/Pages/Home/NavBar";
 // import NavBar from './components/Home/NavBar';
 import { withRouter, Route, Switch } from "react-router-dom";
 import "./app.css";
@@ -12,12 +10,10 @@ import Profile from "./components/Pages/Home/Profile";
 import Home from "./components/Pages/Home";
 import Messaging from "./components/Pages/StudyRoom/Messaging";
 import NotificationProvider from "../client/components/shared/Notifications";
-import UserProvider from "./components/Pages/Home/UserProvider"
-
+import UserProvider from "./components/Pages/Home/UserProvider";
 
 export default function App() {
   return (
-
     <div>
       <UserProvider>
         <NotificationProvider>
@@ -35,5 +31,4 @@ export default function App() {
       </UserProvider>
     </div>
   );
-
 }

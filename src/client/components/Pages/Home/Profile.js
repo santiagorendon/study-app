@@ -18,7 +18,6 @@ import {
 } from "@material-ui/core";
 
 const path = "/api/edit-user";
-const path2 = "/api/find-user";
 
 function Profile() {
   const { user, setUser } = useContext(UserContext);
@@ -41,9 +40,9 @@ function Profile() {
   //     });
   // }, []);
 
-  console.log(user);
+  // console.log(user);
 
-  console.log("this is on the profile page", user);
+  // console.log("this is on the profile page", user);
 
   const customStyles = {
     content: {
@@ -83,7 +82,6 @@ function Profile() {
   }
 
   const handleDelete = (group) => {
-    console.log(group);
     fetch(path, {
       method: "DELETE",
       headers: {
@@ -93,14 +91,8 @@ function Profile() {
       return user.studyGroups.filter((studyGroup) => studyGroup !== group);
     });
   };
-  //run this delete function by the group.
-  let defaultAge = "set your age";
-  let defaultMajor = "set your major";
-  let defaultBio = "create your bio";
-  let defaultCourses = "what courses are you currently studying?";
 
-  // fetch the user information here...
-
+  console.log(user);
   const Profile = () => (
     <Grid item xs>
       <Paper elevation={20} style={paperStyle2}>
@@ -128,7 +120,7 @@ function Profile() {
 
     //         <h5> Username: {user.username}</h5>
     //         <h5> Email: {user.email}</h5>
-    //         {/* <h5> Major: {user.major}</h5>
+    //         /* <h5> Major: {user.major}</h5>
     //         <h5> Bio: {user.bio}</h5> */
 
     //       <Button onClick={openModal} color="secondary">
@@ -151,10 +143,6 @@ function Profile() {
               <Typography color="textSecondary" gutterBottom>
                 {group}
               </Typography>
-              {/* <Typography variant="h5" component="h2">
-              {group.bio}
-            </Typography> */}
-
               <CardActions>
                 <CardActionArea>
                   <Button size="small" onClick={() => handleDelete(group)}>
@@ -191,11 +179,9 @@ function Profile() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setStudy(data);
       });
   };
-  console.log(study);
   return (
     <div>
       <div style={divStyle}>
@@ -232,10 +218,6 @@ function Profile() {
               placeholder={user.major}
               name="major"
               onChange={(e) => handleChange(e)}
-              // label="Email"
-              // placeholder="Enter Your Email"
-              // name="email"
-              // onChange={(e) => handleEmail(e)}
               fullWidth
               required
             />
@@ -247,11 +229,6 @@ function Profile() {
               fullWidth
               required
             />
-            {/* <TextField
-              name="courses"
-              value="courses"
-              onChange={(e) => handleChange(e)}
-            />  */}
             <div style={{ display: "flex", flexDirection: "column" }}>
               <Button
                 type="submit"
