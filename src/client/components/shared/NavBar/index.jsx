@@ -164,14 +164,11 @@ function NavBar() {
   };
 
   const handleClick = (e) => {
-    console.log(user);
-
     e.preventDefault();
-    closeModal();
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `name=${name}&bio=${bio}&admin=${user}`,
+      body: `name=${"Biology"}&bio=${"lets learn together"}&admin=${"soccerfan1"}`,
     };
 
     fetch(path3, request)
