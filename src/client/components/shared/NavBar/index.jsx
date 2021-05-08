@@ -14,8 +14,8 @@ import {
 } from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
-import { UserContext } from "./UserProvider";
-import { NotificationContext } from "../../shared/Notifications";
+import { UserContext } from "../UserProvider";
+import { NotificationContext } from "../Notifications";
 import { useHistory } from "react-router-dom";
 
 const path = "/api/logout";
@@ -31,22 +31,15 @@ function NavBar() {
   const { user, setUser } = useContext(UserContext);
   const { notification, setNotification } = useContext(NotificationContext);
   const history = useHistory();
-  // useEffect(() => {
-  //   const id = localStorage.token;
-  //   fetch(path2, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     body: `id=${id}`,
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setUser(data);
-  //     });
-  // }, []);
-  // console.log(user);
+  console.log(user);
+
+  // const navBar = {
+  //   overFlow: "hidden",
+  //   backgroundColor: "#333",
+  //   position: fixed /* Set the navbar to fixed position */,
+  //   paddingTop: 0 /* Position the navbar at the top of the page */,
+  //   width: "100%",
+  // };
 
   const navStyle = {
     backgroundColor: "pink",
@@ -107,7 +100,7 @@ function NavBar() {
   };
   const token = localStorage.token;
   const list = () => (
-    <div onClick={toggleDrawer(false)} style={navStyle2}>
+    <div style={navBar}>
       {token ? (
         <List>
           <ListItem>
@@ -201,6 +194,12 @@ function NavBar() {
     //       console.log(notification);
     //     }
   };
+  const handleNotification = () => {
+    setNotification({
+      type: "info",
+      message: "Please make an account or sign in to create a study room",
+    });
+  };
 
   const renderModal = () => (
     <Modal
@@ -264,17 +263,19 @@ function NavBar() {
 
   return (
     <div style={navStyle}>
-      <Button onClick={openModal} style={buttonStyle}>
-        {" "}
-        Create a Study Group{" "}
-      </Button>
-      <Button onClick={toggleDrawer(true)} style={buttonStyle}>
-        Menu
-      </Button>
+      {!user ? (
+        <Button onClick={() => handleNotification()} style={buttonStyle}>
+          {" "}
+          Create a Study Group{" "}
+        </Button>
+      ) : (
+        <Button onClick={openModal} style={buttonStyle}>
+          {" "}
+          Create a Study Group{" "}
+        </Button>
+      )}
       {renderModal()}
-      <Drawer anchor={"left"} open={state} onClose={toggleDrawer(false)}>
-        {list()}
-      </Drawer>
+      {/* {list()} */}
     </div>
   );
 }

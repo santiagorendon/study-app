@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
-import StudyRoomCard from './StudyRoomCard'
+import StudyRoomCard from '../StudyRoom/StudyRoomCard'
 import { NotificationContext } from '../../shared/Notifications'
 
 import { Container, Box, Grid } from '@material-ui/core'
