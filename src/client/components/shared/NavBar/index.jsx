@@ -90,18 +90,24 @@ function NavBar() {
   console.log("this is the token", token);
   const token = localStorage.token;
   const list = () => (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div>
       {token ? (
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-            Home
-          </Link>
-          <Link
-            to="/profile"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            Profile
-          </Link>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingTop: "20px" }}
+        >
+          <ListItem>
+            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+              Home
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              to="/profile"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              Profile
+            </Link>
+          </ListItem>
 
           {!localStorage.token && <Redirect to="/login" />}
           <ListItem button onClick={handleLogout}>

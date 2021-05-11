@@ -1,20 +1,55 @@
 import React from "react";
-import { List, Button, ListItem } from "@material-ui/core";
+import {
+  Button,
+  Drawer,
+  List,
+  Divider,
+  ListItem,
+  Paper,
+  Grid,
+  Box,
+  TextField,
+} from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 import Modal from "react-modal";
-import { UserContext } from ".../UserProvider";
-import { NotificationContext } from "../Notifications";
+// import { UserProvider } from ".../.../shared/UserProvider/index";
+// import { NotificationContext } from "../Notifications";
 
 function StaticMenu() {
-  const { user, setUser } = useContext(UserContext);
-  const { notification, setNotification } = useContext(NotificationContext);
+  // const { notification, setNotification } = useContext(NotificationContext);
 
-  const handleNotification = () => {
-    setNotification({
-      type: "info",
-      message: "Please make an account or sign in to create a study room",
-    });
+  // const handleNotification = () => {
+  //   setNotification({
+  //     type: "info",
+  //     message: "Please make an account or sign in to create a study room",
+  //   });
+  // };
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
   };
+
+  const divStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  };
+
+  const buttonStyle = { position: "relative", top: "8.5px" };
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   const renderModal = () => (
     <Modal
@@ -58,44 +93,18 @@ function StaticMenu() {
           </div>
         </form>
       </div>
-
-      {/* <FormControl>
-        <InputLabel shrink htmlFor="select-multiple-native">
-          Native
-        </InputLabel>
-        <Select
-          multiple
-          native
-          inputProps={{
-            id: "select-multiple-native",
-          }}
-        >
-          Courses to select from?
-        </Select>
-      </FormControl> */}
     </Modal>
   );
 
   return (
     <div>
-      {!user ? (
-        <Button onClick={() => handleNotification()} style={buttonStyle}>
-          {" "}
-          Create a Study Group{" "}
-        </Button>
-      ) : (
-        <Button onClick={openModal} style={buttonStyle}>
-          {" "}
-          Create a Study Group{" "}
-        </Button>
-      )}
-      <List>
-        <ListItem>
+      <Grid>
+        <Paper>
           <Link>My Study Groups</Link>
-        </ListItem>
-        <ListItem></ListItem>
-      </List>
-      {renderModal()}
+        </Paper>
+      </Grid>
+
+      {/* {renderModal()} */}
     </div>
   );
 }

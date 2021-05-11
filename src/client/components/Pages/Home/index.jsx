@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import StudyRoomCard from "../StudyRoom/StudyRoomCard";
 import { NotificationContext } from "../../shared/Notifications";
+// import { UserProvider } from "../../shared/UserProvider";
 import StaticMenu from "./StaticMenu";
 import { Container, Box, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const getRooms = "/api/fetch-all";
   const { setNotification } = useContext(NotificationContext);
+  // const { user } = useContext(UserProvider);
   const [rooms, setRooms] = useState([]);
   const classes = useStyles();
   useEffect(() => {
@@ -44,7 +46,7 @@ const Home = () => {
 
   return (
     <Container>
-      {/* {StaticMenu()} */}
+      <StaticMenu />
       <Grid container direction="column" justify="center" alignItems="center">
         <Box m={5}>
           <h1> Group List</h1>
