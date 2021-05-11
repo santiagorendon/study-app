@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import NavBar from "../../shared/NavBar";
 import Modal from "react-modal";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { UserContext } from "../../shared/UserProvider";
-
+import ProfileCard from "./ProfileCard";
 
 import {
   Paper,
@@ -18,17 +17,46 @@ import {
   TextField,
 } from "@material-ui/core";
 
-const path = "/api/edit-user";
-const path2 = "/api/find-user";
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+const divStyle = {
+  display: "flex",
+  padding: "5px",
+  margin: "5px",
+  flexDirection: "row",
+  justifyContent: "space-evenly",
+  alignItems: "stretch",
+
+};
+const paperStyle2 = {
+  padding: "20%",
+  height: "50vh",
+  width: "280%",
+  margin: "20px auto",
+  overflow: "scroll",
+
+};
 
 
 function Profile() {
   const { user, setUser } = useContext(UserContext);
-  // const [user, setUser] = useState([]);
   const [major, setMajor] = useState("");
   const [bio, setBio] = useState("");
   const [study, setStudy] = useState([]);
-  // useEffect(() => {
+
+  console.log(user);
+  console.log("this is on the profile page", user);
+
+    // useEffect(() => {
   //   const id = localStorage.token;
   //   fetch(path2, {
   //     method: "POST",
@@ -43,40 +71,6 @@ function Profile() {
   //     });
   // }, []);
 
-  console.log(user);
-
-
-  console.log("this is on the profile page", user);
-
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-    },
-  };
-
-  const divStyle = {
-    display: "flex",
-    padding: "5px",
-    margin: "5px",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "stretch",
-
-  };
-
-  const paperStyle2 = {
-    padding: "20%",
-    height: "50vh",
-    width: "280%",
-    margin: "20px auto",
-    overflow: "scroll",
-
-  };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
@@ -86,7 +80,6 @@ function Profile() {
   function closeModal() {
     setIsOpen(false);
   }
-
 
   const handleDelete = (group) => {
     console.log(group);
@@ -99,6 +92,7 @@ function Profile() {
       return user.studyGroups.filter((studyGroup) => studyGroup !== group);
     });
   };
+
   //run this delete function by the group.
   let defaultAge = "set your age";
   let defaultMajor = "set your major";
@@ -107,28 +101,6 @@ function Profile() {
 
   // fetch the user information here...
 
-  const Profile = () => (
-
-    <Grid item xs>
-      <Paper elevation={20} style={paperStyle2}>
-        <Grid align="center">
-          <h3>Profile</h3>
-          <Grid>
-            <Avatar></Avatar>
-          </Grid>
-          <div>
-            <h5> Username: {user.username}</h5>
-            <h5> Email: {user.email}</h5>
-          </div>
-
-          <Button onClick={openModal} color="secondary">
-            {" "}
-            Edit Profile{" "}
-          </Button>
-        </Grid>
-      </Paper>
-    </Grid>
-  );
 
   //ternary for the h5 tags t set a default value.
 
@@ -195,10 +167,7 @@ function Profile() {
             <Paper elevation={20} style={paperStyle2}>
               <Grid align="center">
                 <h4> User Study Groups</h4>
-                {/* {user.studyGroups.map((group) => (
-                  <div> {group} </div>
-                ))} */}
-                {/* {userStudyGroups()} */}
+
                 {user.studyGroups
                   ? userStudyGroups()
                   : "you have no study groups"}
@@ -206,7 +175,9 @@ function Profile() {
             </Paper>
           </Grid>
         </div>
-        <div>{Profile()}</div>
+        <div>
+                  <ProfileCard openModal={openModal} user={user} />
+        </div>
       </div>
 
       <Modal
