@@ -68,18 +68,6 @@ function NavBar() {
 
   const buttonStyle = { position: "relative", top: "8.5px" };
 
-  const navStyle2 = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    padding: "75px",
-    fontSize: "30px",
-  };
-
-  const toggleDrawer = (open) => (event) => {
-    setState(open);
-  };
-
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
@@ -98,32 +86,32 @@ function NavBar() {
     // }).then(response => console.log(response))
     //this is for closing the backend server?
   };
+
+  console.log("this is the token", token);
   const token = localStorage.token;
   const list = () => (
-    <div style={navBar}>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       {token ? (
-        <List>
-          <ListItem>
-            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-              Home
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link
-              to="/profile"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              Profile
-            </Link>
-          </ListItem>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+            Home
+          </Link>
+          <Link
+            to="/profile"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            Profile
+          </Link>
 
           {!localStorage.token && <Redirect to="/login" />}
           <ListItem button onClick={handleLogout}>
             Logout
           </ListItem>
-        </List>
+        </div>
       ) : (
-        <List>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingTop: "20px" }}
+        >
           <ListItem>
             <Link to="/" style={{ textDecoration: "none", color: "black" }}>
               Home
@@ -146,7 +134,7 @@ function NavBar() {
               Login
             </Link>
           </ListItem>
-        </List>
+        </div>
       )}
     </div>
   );
@@ -272,7 +260,7 @@ function NavBar() {
         </Button>
       )}
       {renderModal()}
-      {/* {list()} */}
+      {list()}
     </div>
   );
 }
