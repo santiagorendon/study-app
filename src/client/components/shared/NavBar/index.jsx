@@ -32,22 +32,14 @@ function NavBar() {
   const { notification, setNotification } = useContext(NotificationContext);
   const history = useHistory();
   console.log(user);
-  // useEffect(() => {
-  //   const id = localStorage.token;
-  //   fetch(path2, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     body: `id=${id}`,
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setUser(data);
-  //     });
-  // }, []);
-  // console.log(user);
+
+  // const navBar = {
+  //   overFlow: "hidden",
+  //   backgroundColor: "#333",
+  //   position: fixed /* Set the navbar to fixed position */,
+  //   paddingTop: 0 /* Position the navbar at the top of the page */,
+  //   width: "100%",
+  // };
 
   const navStyle = {
     backgroundColor: "pink",
@@ -108,7 +100,7 @@ function NavBar() {
   };
   const token = localStorage.token;
   const list = () => (
-    <div onClick={toggleDrawer(false)} style={navStyle2}>
+    <div style={navBar}>
       {token ? (
         <List>
           <ListItem>
@@ -172,14 +164,11 @@ function NavBar() {
   };
 
   const handleClick = (e) => {
-    console.log(user);
-
     e.preventDefault();
-    closeModal();
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `name=${name}&bio=${bio}&admin=${user}`,
+      body: `name=${"Biology"}&bio=${"lets learn together"}&admin=${"soccerfan1"}`,
     };
 
     fetch(path3, request)
@@ -189,19 +178,24 @@ function NavBar() {
       })
       .then((data) => console.log(data));
 
-//     if (user) {
-//       const request = {
-//         method: "POST",
-//         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-//         body: `name=${name}&bio=${bio}&admin=${user.id}&playlistUrl=${playlistUrl}`,
-//       };
-//       fetch(path3, request)
-//         .then((response) => response.json())
-//         .then((data) => console.log(data));
-//     } else {
-//       console.log(notification);
-//     }
-
+    //     if (user) {
+    //       const request = {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    //         body: `name=${name}&bio=${bio}&admin=${user.id}&playlistUrl=${playlistUrl}`,
+    //       };
+    //       fetch(path3, request)
+    //         .then((response) => response.json())
+    //         .then((data) => console.log(data));
+    //     } else {
+    //       console.log(notification);
+    //     }
+  };
+  const handleNotification = () => {
+    setNotification({
+      type: "info",
+      message: "Please make an account or sign in to create a study room",
+    });
   };
 
   const renderModal = () => (
@@ -266,17 +260,19 @@ function NavBar() {
 
   return (
     <div style={navStyle}>
-      <Button onClick={openModal} style={buttonStyle}>
-        {" "}
-        Create a Study Group{" "}
-      </Button>
-      <Button onClick={toggleDrawer(true)} style={buttonStyle}>
-        Menu
-      </Button>
+      {!user ? (
+        <Button onClick={() => handleNotification()} style={buttonStyle}>
+          {" "}
+          Create a Study Group{" "}
+        </Button>
+      ) : (
+        <Button onClick={openModal} style={buttonStyle}>
+          {" "}
+          Create a Study Group{" "}
+        </Button>
+      )}
       {renderModal()}
-      <Drawer anchor={"left"} open={state} onClose={toggleDrawer(false)}>
-        {list()}
-      </Drawer>
+      {/* {list()} */}
     </div>
   );
 }
