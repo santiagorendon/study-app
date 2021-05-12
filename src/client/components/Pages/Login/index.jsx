@@ -12,7 +12,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import {UserContext} from "../../shared/UserProvider"
+import { UserContext } from "../../shared/UserProvider";
 
 const path = "/api/login";
 
@@ -28,7 +28,7 @@ function Login() {
     width: 280,
     margin: "20px auto",
   };
-  const avatarStyle = { backgroundColor: "pink" };
+  const avatarStyle = { backgroundColor: "#EA5843", opacity: 0.6 };
   const buttonStyle = { margin: "8px 0" };
 
   const handleEmail = (e) => {
@@ -63,7 +63,7 @@ function Login() {
           history.push("/");
           // const token = response["success"];
           const userData = response["success"];
-          console.log(userData)
+          console.log(userData);
           localStorage.token = userData.id;
           setUser(userData);
           return response["success"];
@@ -91,7 +91,9 @@ function Login() {
               <Avatar style={avatarStyle}>
                 <LockOutlinedIcon></LockOutlinedIcon>
               </Avatar>
-              <h2>Sign In</h2>
+              <h2 style={{ fontFamily: "Permanent Marker", fontSize: "20px" }}>
+                Sign In
+              </h2>
             </Grid>
             <TextField
               label="Email"
