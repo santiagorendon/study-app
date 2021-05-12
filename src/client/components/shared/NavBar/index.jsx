@@ -254,7 +254,6 @@ function NavBar() {
 
   return (
     <div style={navStyle}>
-      <img src={logo} style={{ maxWidth: "6%", padding: "2px" }} />
       {!user ? (
         <ListItem onClick={() => handleNotification()}>
           {" "}
@@ -263,7 +262,11 @@ function NavBar() {
       ) : (
         <ListItem onClick={openModal}> Create a Study Group </ListItem>
       )}
-
+      <div style={{ maxWidth: "6%", padding: "2px", marginRight: "30%" }}>
+        <Link to="/">
+          <img src={logo} style={{ maxWidth: "72%" }} />
+        </Link>
+      </div>
       {renderModal()}
       {list()}
     </div>

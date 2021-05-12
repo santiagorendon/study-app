@@ -28,9 +28,11 @@ function StaticMenu() {
   return (
     <div>
       <Grid>
-        <Paper>
-          <div>What even goes here?</div>
-        </Paper>
+        <List>
+          <ListItem>Hello?</ListItem>
+          <ListItem>Hello?</ListItem>
+          <ListItem>Hello?</ListItem>
+        </List>
       </Grid>
     </div>
   );
