@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import logo from "./logo.png";
 import {
   Button,
   Drawer,
@@ -42,11 +43,12 @@ function NavBar() {
   // };
 
   const navStyle = {
-    backgroundColor: "pink",
+    backgroundColor: "#EA5843",
+    fontFamily: "Permanent Marker",
+    fontSize: "20px",
     opacity: ".6",
     display: "flex",
-    justifyContent: "space-around",
-    paddingBottom: "1rem",
+    justifyContent: "space-between",
   };
 
   const divStyle = {
@@ -65,8 +67,6 @@ function NavBar() {
       transform: "translate(-50%, -50%)",
     },
   };
-
-  const buttonStyle = { position: "relative", top: "8.5px" };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
@@ -93,7 +93,7 @@ function NavBar() {
     <div>
       {token ? (
         <div
-          style={{ display: "flex", flexDirection: "row", paddingTop: "20px" }}
+          style={{ display: "flex", flexDirection: "row", paddingTop: "13px" }}
         >
           <ListItem>
             <Link to="/" style={{ textDecoration: "none", color: "black" }}>
@@ -116,7 +116,7 @@ function NavBar() {
         </div>
       ) : (
         <div
-          style={{ display: "flex", flexDirection: "row", paddingTop: "20px" }}
+          style={{ display: "flex", flexDirection: "row", paddingTop: "13px" }}
         >
           <ListItem>
             <Link to="/" style={{ textDecoration: "none", color: "black" }}>
@@ -254,17 +254,16 @@ function NavBar() {
 
   return (
     <div style={navStyle}>
+      <img src={logo} style={{ maxWidth: "6%", padding: "2px" }} />
       {!user ? (
-        <Button onClick={() => handleNotification()} style={buttonStyle}>
+        <ListItem onClick={() => handleNotification()}>
           {" "}
           Create a Study Group{" "}
-        </Button>
+        </ListItem>
       ) : (
-        <Button onClick={openModal} style={buttonStyle}>
-          {" "}
-          Create a Study Group{" "}
-        </Button>
+        <ListItem onClick={openModal}> Create a Study Group </ListItem>
       )}
+
       {renderModal()}
       {list()}
     </div>

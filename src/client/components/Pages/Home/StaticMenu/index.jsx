@@ -100,7 +100,7 @@ function StaticMenu() {
     <div>
       <Grid>
         <Paper>
-          <Link>My Study Groups</Link>
+          <div>What even goes here?</div>
         </Paper>
       </Grid>
 

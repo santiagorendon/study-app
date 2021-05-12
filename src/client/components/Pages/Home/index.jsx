@@ -2,16 +2,12 @@ import Axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import StudyRoomCard from "../StudyRoom/StudyRoomCard";
 import { NotificationContext } from "../../shared/Notifications";
-// import { UserProvider } from "../../shared/UserProvider";
 import StaticMenu from "./StaticMenu";
 import { Container, Box, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // background: '#222',
-  },
   input: {
     width: "30rem",
     marginBottom: "1rem",
@@ -19,30 +15,45 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
+  const classes = useStyles();
+
   const getRooms = "/api/fetch-all";
   const { setNotification } = useContext(NotificationContext);
-  // const { user } = useContext(UserProvider);
+
   const [rooms, setRooms] = useState([]);
-  const classes = useStyles();
+  const [searchField, setSearchField] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
   useEffect(() => {
-    Axios.get(getRooms)
-      // .then(( studyGroups ) => console.log(studyGroups.data.studyGroups))
-      .then((res) => {
-        if (res.status !== 200) {
-          setNotification({
-            type: "error",
-            message: "Not Found",
-          });
-        } else if (res.status === 200) {
-          setRooms(res.data.studyGroups);
-        } else {
-          setNotification({
-            type: "error",
-            message: "Something is wrong!",
-          });
-        }
-      });
+    Axios.get(getRooms).then((res) => {
+      if (res.status === 200) {
+        setRooms(res.data.studyGroups);
+        console.log(res.data.studyGroups);
+      } else {
+        setNotification({
+          type: "error",
+          message: `Something is wrong! error ${res.status}`,
+        });
+      }
+    });
   }, []);
+  // update products based on search
+  useEffect(() => {
+    setFilteredProducts(rooms);
+  }, [rooms]);
+
+  // filter products list based on descriptions
+  useEffect(() => {
+    const filteredList = rooms.filter((item) => {
+      const name = item.name.toLowerCase();
+
+      if (name.indexOf(searchField.toLowerCase()) >= 0) {
+        return true;
+      }
+      return false;
+    });
+    setFilteredProducts(filteredList);
+  }, [searchField]);
 
   return (
     <Container>
@@ -51,16 +62,16 @@ const Home = () => {
         <Box m={5}>
           <h1> Group List</h1>
         </Box>
-        <form className={classes.root} noValidate autoComplete="off">
-          <TextField
-            className={classes.input}
-            id="outlined-basic"
-            label="Search"
-            variant="outlined"
-          />
-        </form>
 
-        {rooms.map((room, i) => (
+        <TextField
+          onChange={(e) => setSearchField(e.target.value)}
+          className={classes.input}
+          id="outlined-basic"
+          label="Search"
+          variant="outlined"
+        />
+
+        {filteredProducts.map((room, i) => (
           <StudyRoomCard
             key={i}
             groupName={room.name}
