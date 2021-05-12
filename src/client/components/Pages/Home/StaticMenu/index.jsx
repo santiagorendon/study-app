@@ -25,13 +25,21 @@ function StaticMenu() {
   //   });
   // };
 
+  //run this by the group to see what should go in the static nav bar
+
   return (
     <div>
       <Grid>
         <List>
-          <ListItem>Hello?</ListItem>
-          <ListItem>Hello?</ListItem>
-          <ListItem>Hello?</ListItem>
+          <ListItem>About </ListItem>
+          <ListItem>Resources </ListItem>
+          <ListItem>Courses </ListItem>
+          <ListItem>
+            <Link to="/team" style={{ textDecoration: "none", color: "black" }}>
+              {" "}
+              Meet the Team
+            </Link>
+          </ListItem>
         </List>
       </Grid>
     </div>
