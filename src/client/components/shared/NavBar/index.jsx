@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import logo from "./logo.png";
 import {
   Button,
   Drawer,
@@ -42,11 +43,12 @@ function NavBar() {
   // };
 
   const navStyle = {
-    backgroundColor: "pink",
+    backgroundColor: "#EA5843",
+    fontFamily: "Permanent Marker",
+    fontSize: "20px",
     opacity: ".6",
     display: "flex",
-    justifyContent: "space-around",
-    paddingBottom: "1rem",
+    justifyContent: "space-between",
   };
 
   const divStyle = {
@@ -64,20 +66,6 @@ function NavBar() {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
     },
-  };
-
-  const buttonStyle = { position: "relative", top: "8.5px" };
-
-  const navStyle2 = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    padding: "75px",
-    fontSize: "30px",
-  };
-
-  const toggleDrawer = (open) => (event) => {
-    setState(open);
   };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -98,11 +86,15 @@ function NavBar() {
     // }).then(response => console.log(response))
     //this is for closing the backend server?
   };
+
+  console.log("this is the token", token);
   const token = localStorage.token;
   const list = () => (
-    <div style={navBar}>
+    <div>
       {token ? (
-        <List>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingTop: "13px" }}
+        >
           <ListItem>
             <Link to="/" style={{ textDecoration: "none", color: "black" }}>
               Home
@@ -121,9 +113,11 @@ function NavBar() {
           <ListItem button onClick={handleLogout}>
             Logout
           </ListItem>
-        </List>
+        </div>
       ) : (
-        <List>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingTop: "13px" }}
+        >
           <ListItem>
             <Link to="/" style={{ textDecoration: "none", color: "black" }}>
               Home
@@ -146,7 +140,7 @@ function NavBar() {
               Login
             </Link>
           </ListItem>
-        </List>
+        </div>
       )}
     </div>
   );
@@ -261,18 +255,20 @@ function NavBar() {
   return (
     <div style={navStyle}>
       {!user ? (
-        <Button onClick={() => handleNotification()} style={buttonStyle}>
+        <ListItem onClick={() => handleNotification()}>
           {" "}
           Create a Study Group{" "}
-        </Button>
+        </ListItem>
       ) : (
-        <Button onClick={openModal} style={buttonStyle}>
-          {" "}
-          Create a Study Group{" "}
-        </Button>
+        <ListItem onClick={openModal}> Create a Study Group </ListItem>
       )}
+      <div style={{ maxWidth: "6%", padding: "2px", marginRight: "30%" }}>
+        <Link to="/">
+          <img src={logo} style={{ maxWidth: "72%" }} />
+        </Link>
+      </div>
       {renderModal()}
-      {/* {list()} */}
+      {list()}
     </div>
   );
 }
