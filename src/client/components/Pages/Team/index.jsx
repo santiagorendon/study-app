@@ -11,6 +11,8 @@ import Santiago from "./Santiago.png";
 import Andres from "./Andres.png";
 import Crystal from "./crystal.png";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -42,13 +44,31 @@ function Team() {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
+        <CardActions
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <Link
+            to={{ pathname: "https://github.com/santiagorendon" }}
+            target="_blank"
+          >
+            <Button size="small" color="primary" to="/">
+              <GitHubIcon />
+            </Button>
+          </Link>
+          <Link
+            to={{
+              pathname:
+                "https://www.linkedin.com/in/santiago-rendon-480550129/",
+            }}
+            target="_blank"
+          >
+            <Button size="small" color="primary">
+              <LinkedInIcon />
+            </Button>
+          </Link>
         </CardActions>
       </Card>
     </div>
@@ -75,13 +95,28 @@ function Team() {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
+        <CardActions
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <Link
+            to={{ pathname: "https://github.com/TavaresDev" }}
+            target="_blank"
+          >
+            <Button size="small" color="primary">
+              <GitHubIcon />
+            </Button>
+          </Link>
+          <Link
+            to={{ pathname: "https://www.linkedin.com/in/andre--tavares/" }}
+            target="_blank"
+          >
+            <Button size="small" color="primary">
+              <LinkedInIcon />
+            </Button>
+          </Link>
         </CardActions>
       </Card>
     </div>
@@ -103,18 +138,36 @@ function Team() {
               Crystal Villanueva
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Fullstack software engineer with a background in neuroscience and
-              a love for language.
+              Full Stack software engineer with a background in neuroscience and
+              a love for language. Creative coder and supreme pet owner
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
+        <CardActions
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <Link
+            to={{ pathname: "https://github.com/noelanimanini" }}
+            target="_blank"
+          >
+            <Button size="small" color="primary">
+              <GitHubIcon />
+            </Button>
+          </Link>
+          <Link
+            to={{
+              pathname:
+                "https://www.linkedin.com/in/crystal-villanueva-151353145/",
+            }}
+            target="_blank"
+          >
+            <Button size="small" color="primary">
+              <LinkedInIcon />
+            </Button>
+          </Link>
         </CardActions>
       </Card>
     </div>
