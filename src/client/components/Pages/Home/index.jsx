@@ -56,9 +56,21 @@ const Home = () => {
   }, [searchField]);
 
   return (
-    <Container>
+    <Container style={{ display: "flex" }}>
       <StaticMenu />
-      <Grid container direction="column" justify="center" alignItems="center">
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        style={{
+          border: "10px",
+          borderColor: "black",
+          borderStyle: "solid",
+          maxWidth: "64%",
+          marginLeft: "4%",
+        }}
+      >
         <Box m={5}>
           <h1> Group List</h1>
         </Box>

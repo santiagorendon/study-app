@@ -27,22 +27,52 @@ function StaticMenu() {
 
   //run this by the group to see what should go in the static nav bar
 
+  const fontStyle = {
+    fontFamily: "'Roboto', sans-serif",
+    fontSize: "20px",
+  };
+
   return (
-    <div>
-      <Grid>
-        <List>
-          <ListItem>About </ListItem>
-          <ListItem>Resources </ListItem>
-          <ListItem>Courses </ListItem>
-          <ListItem>
-            <Link to="/team" style={{ textDecoration: "none", color: "black" }}>
-              {" "}
-              Meet the Team
-            </Link>
-          </ListItem>
-        </List>
-      </Grid>
-    </div>
+    <Grid
+      item
+      xs={3}
+      style={{
+        border: "10px",
+        borderColor: "black",
+        borderStyle: "solid",
+        maxWidth: "15%",
+      }}
+    >
+      <List style={fontStyle}>
+        <ListItem>
+          <Link to="/about" style={{ textDecoration: "none", color: "black" }}>
+            About
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link
+            to="/resources"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            Resources
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link
+            to="/courses"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            Courses
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link to="/team" style={{ textDecoration: "none", color: "black" }}>
+            {" "}
+            Meet the Team
+          </Link>
+        </ListItem>
+      </List>
+    </Grid>
   );
 }
 
